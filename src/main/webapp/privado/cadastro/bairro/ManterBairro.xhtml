@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['bairro.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterBairroMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idBairro" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idBairro" value="#{manterBairroMBean.bairro.idBairro}" size="10" readonly="true"/>
+
+            <p:outputLabel for="nomeBairro" value="#{msg['bairro.manter.nome']}"/>
+            <p:inputText id="nomeBairro" value="#{manterBairroMBean.bairro.nome}" size="50"
+                         required="true" requiredMessage="#{msg['bairro.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="cidade" value="#{msg['bairro.manter.cidade']}"/>
+            <p:selectOneMenu id="cidade" value="#{manterBairroMBean.bairro.cidade.idCidade}" filter="true" filterMatchMode="startsWith"
+                             required="true" requiredMessage="#{msg['bairro.manter.cidade.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['bairro.manter.cidade.selectOneMenu']}" />
+                <f:selectItems value="#{manterBairroMBean.listaCidades}" var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.toString()}" />
+            </p:selectOneMenu>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

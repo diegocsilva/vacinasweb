@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['entradaEstoqueVacina.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterEstoqueVacinaMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idEntradaEstoque" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idEntradaEstoque" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.idEntradaEstoque}" size="10" readonly="true"/>
+
+            <p:outputLabel for="estoqueVacina" value="#{msg['entradaEstoqueVacina.manter.estoqueVacina']}"/>
+            <p:inputText id="estoqueVacina" value="#{manterEntradaEstoqueVacinaMBean.estoqueVacina.loteVacina.toString()}" size="50" readonly="true"/>
+
+            <p:outputLabel for="dataPedido" value="#{msg['entradaEstoqueVacina.manter.dataPedido']}"/>
+            <p:calendar id="dataPedido" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" mask="true"
+                        value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.dataPedido}"/>
+
+            <p:outputLabel for="dataEntrada" value="#{msg['entradaEstoqueVacina.manter.dataEntrada']}"/>
+            <p:calendar id="dataEntrada" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" mask="true"
+                        value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.dataEntrada}"/>
+
+            <p:outputLabel for="numeroNotaFiscal" value="#{msg['entradaEstoqueVacina.manter.numeroNotaFiscal']}"/>
+            <p:inputText id="numeroNotaFiscal" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.numeroNotaFiscal}" size="50"/>
+
+            <p:outputLabel for="quantidade" value="#{msg['entradaEstoqueVacina.manter.quantidade']}"/>
+            <p:inputText id="quantidade" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.quantidade}}" size="50"/>
+
+            <p:outputLabel for="valorUnitario" value="#{msg['entradaEstoqueVacina.manter.valorUnitario']}"/>
+            <p:inputText id="valorUnitario" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.valorUnitario}" size="50" type="number" />
+
+            <p:outputLabel for="valorDesconto" value="#{msg['entradaEstoqueVacina.manter.valorDesconto']}"/>
+            <p:inputText id="valorDesconto" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.valorDesconto}" size="50" type="number"/>
+
+            <p:outputLabel for="valorTotal" value="#{msg['entradaEstoqueVacina.manter.valorTotal']}"/>
+            <p:inputText id="valorTotal" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.valorTotal}" size="50" type="number"/>
+
+            <p:outputLabel for="responsavel" value="#{msg['entradaEstoqueVacina.manter.responsavel']}"/>
+            <p:selectOneMenu id="responsavel" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.responsavel.id}" filter="true" filterMatchMode="contains" 
+                             required="true" requiredMessage="#{msg['entradaEstoqueVacina.manter.responsavel.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['entradaEstoqueVacina.manter.responsavel.selecione']}" />
+                <f:selectItems value="#{manterEntradaEstoqueVacinaMBean.listaResponsaveis}" var="responsavel" itemLabel="#{responsavel.nome}" itemDescription="#{responsavel.toString()}"
+                               itemValue="#{responsavel.id}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="observacao" value="#{msg['entradaEstoqueVacina.manter.observacao']}"/>
+            <p:inputTextarea id="observacao" value="#{manterEntradaEstoqueVacinaMBean.entradaEstoque.observacao}"/>
+        </ui:define>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['usuario.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterUsuarioMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idUsuario" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idUsuario" value="#{manterUsuarioMBean.usuario.idUsuario}" size="10" disabled="true"/>
+
+            <h:outputLabel for="funcionario" value="#{msg['usuario.manter.funcionario']}"/>
+            <p:selectOneMenu id="funcionario" value="#{manterUsuarioMBean.funcionario.id}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['usuario.manter.funcionario.selectOneMenu']}" />
+                <f:selectItems value="#{manterUsuarioMBean.listaFuncionarios}" var="funcionario" itemLabel="#{funcionario.nome}" itemDescription="#{funcionario.toString()}"
+                               itemValue="#{funcionario.id}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="loginUsuario" value="#{msg['usuario.manter.login']}"/>
+            <p:inputText id="loginUsuario" value="#{manterUsuarioMBean.usuario.login}" size="50" 
+                         required="true" requiredMessage="#{msg['usuario.manter.login.requiredMessage']}"/>
+
+            <p:outputLabel for="senhaUsuario" value="#{msg['usuario.manter.senha']}"/>
+            <p:password id="senhaUsuario" value="#{manterUsuarioMBean.usuario.senha}" size="50"
+                        feedback="true" promptLabel="#{msg['password.promptLabel']}" weakLabel="#{msg['password.weakLabel']}" 
+                        goodLabel="#{msg['password.goodLabel']}" strongLabel="#{msg['password.strongLabel']}"
+                        required="true" requiredMessage="#{msg['usuario.manter.senha.requiredMessage']}"/>
+
+            <p:outputLabel for="situacaoUsuario" value="#{msg['usuario.manter.situacao']}"/>
+            <p:selectBooleanButton id="situacaoUsuario" value="#{manterUsuarioMBean.usuario.ativo}" onLabel="Ativo" onIcon="fa fa-check"
+                                   offLabel="Inativo" offIcon="fa fa-close" />
+
+            <p:outputLabel for="administrador" value="#{msg['usuario.manter.administrador']}"/>
+            <p:selectBooleanButton id="administrador" value="#{manterUsuarioMBean.usuario.administrador}" onLabel="Sim" onIcon="fa fa-check" 
+                                   offLabel="Não" offIcon="fa fa-close" />
+
+            <p:outputLabel for="PerfilPickList" value="#{msg['usuario.manter.pickList.perfil']}" />
+            <h:panelGrid >
+
+                <p:pickList id="PerfilPickList" value="#{manterUsuarioMBean.listaPerfisPickList}" var="perfil" itemValue="#{perfil}"
+                            converter="perfilPickListConverter" filterMatchMode="contains" labelDisplay="inline"
+                            itemLabel="#{perfil.nome}" responsive="true" showSourceFilter="true" showTargetFilter="true"  
+                            addLabel="#{msg['pickList.botao.addLabel']}" addAllLabel="#{msg['pickList.botao.addAllLabel']}" 
+                            removeLabel="#{msg['pickList.botao.removeLabel']}" removeAllLabel="#{msg['pickList.botao.removeAllLabel']}" >
+                    <f:facet name="sourceCaption">#{msg['usuario.manter.pickList.sourceCaption']}</f:facet>
+                    <f:facet name="targetCaption">#{msg['usuario.manter.pickList.targetCaption']}</f:facet>
+                </p:pickList>
+
+            </h:panelGrid>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

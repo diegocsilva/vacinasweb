@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['loteVacina.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterLoteVacinaMBean}" />
+
+        <ui:define name="camposForm">
+            <p:outputLabel for="vacinaLote" value="#{msg['loteVacina.manter.vacina']}"/>
+            <p:selectOneMenu id="vacinaLote" value="#{manterLoteVacinaMBean.vacina.idVacina}" filter="true" filterMatchMode="contains"
+                             required="true" requiredMessage="#{msg['loteVacina.manter.vacina.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['loteVacina.manter.vacina.selectOneMenu']}" />
+                <f:selectItems value="#{manterLoteVacinaMBean.listaVacinas}" var="vacinaLote" itemLabel="#{vacinaLote.nome}" itemDescription="#{vacinaLote.nome}" 
+                               itemValue="#{vacinaLote.idVacina}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="fabricanteLote" value="#{msg['loteVacina.manter.fabricante']}"/>
+            <p:selectOneMenu id="fabricanteLote" value="#{manterLoteVacinaMBean.fabricante.idEmpresa}" filter="true" filterMatchMode="contains"
+                             required="true" requiredMessage="#{msg['loteVacina.manter.fabricante.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['loteVacina.manter.fabricante.selectOneMenu']}" />
+                <f:selectItems value="#{manterLoteVacinaMBean.listaFabricante}" var="fabricanteLote" itemLabel="#{fabricanteLote.nomeFantasia}" itemDescription="#{fabricanteLote.toString()}" 
+                               itemValue="#{fabricanteLote.idEmpresa}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="dataFabricacaoLote" value="#{msg['loteVacina.manter.dataFabricacao']}"/>
+            <p:calendar id="dataFabricacaoLote" locale="br" pattern="#{msg['sistema.calendar.pattern.data']}" value="#{manterLoteVacinaMBean.loteVacina.dataFabricacao}" size="15"
+                        required="true" requiredMessage="#{msg['loteVacina.manter.dataFabricacao.requiredMessage']}" />
+
+            <p:outputLabel for="dataValidadeLote" value="#{msg['loteVacina.manter.dataValidade']}"/>
+            <p:calendar id="dataValidadeLote" locale="br" pattern="#{msg['sistema.calendar.pattern.data']}" value="#{manterLoteVacinaMBean.loteVacina.dataFabricacao}" size="15"
+                        required="true" requiredMessage="#{msg['loteVacina.manter.dataValidade.requiredMessage']}" />
+
+            <p:outputLabel for="numeroLote" value="#{msg['loteVacina.manter.numero']}"/>
+            <p:inputText id="numeroLote" value="#{manterLoteVacinaMBean.loteVacina.numero}" size="50"
+                         required="true" requiredMessage="#{msg['loteVacina.manter.numero.requiredMessage']}"/>
+
+            <p:outputLabel for="descricaoLote" value="#{msg['loteVacina.manter.descricao']}"/>
+            <p:inputText id="descricaoLote" value="#{manterLoteVacinaMBean.loteVacina.descricao}" size="50"/>
+
+            <p:outputLabel for="situacao" value="#{msg['loteVacina.manter.situacao']}"/>
+            <p:selectBooleanButton id="situacao" value="#{manterLoteVacinaMBean.loteVacina.ativo}" onLabel="Ativo" onIcon="fa fa-check"
+                                   offLabel="Inativo" offIcon="fa fa-close" />
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

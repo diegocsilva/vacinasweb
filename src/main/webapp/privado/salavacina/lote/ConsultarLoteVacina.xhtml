@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarLoteVacinaMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['loteVacina.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['loteVacina.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="vacina" value="#{msg['loteVacina.consultar.vacina']}"/>
+            <p:selectOneMenu id="vacina" value="#{consultarLoteVacinaMBean.loteVacina.vacina.idVacina}" filter="true" filterMatchMode="contains">
+
+                <f:selectItem itemLabel="#{msg['loteVacina.consultar.vacina.selectOneMenu']}" />
+                <f:selectItems value="#{consultarLoteVacinaMBean.listaVacina}" var="vacina" itemLabel="#{vacina.nome}" itemValue="#{vacina.idVacina}" itemDescription="#{vacina.nome}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="fabricante" value="#{msg['loteVacina.consultar.fabricante']}" />
+            <p:selectOneMenu id="fabricante" value="#{consultarLoteVacinaMBean.loteVacina.fabricante.idEmpresa}" 
+                             filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['loteVacina.consultar.fabricante.selectOneMenu']}" />
+                <f:selectItems value="#{consultarVacinaMBean.listaFabricantes}" var="fabricante" itemLabel="#{fabricante.nomeFantasia}" itemValue="#{fabricante.idEmpresa}" itemDescription="#{fabricante.toString()}" />
+            </p:selectOneMenu>
+
+            <h:outputLabel for="dataValidadeInicio" value="#{msg['loteVacina.consultar.dataValidade']}"/>
+            <h:panelGrid columns="5" >
+                <p:calendar id="dataValidadeInicio" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="15"
+                            value="#{consultarLoteVacinaMBean.loteVacina.dataValidadeInicial}"/>
+                <p:spacer width="5" />
+                <p:outputLabel value="até" />
+                <p:spacer width="5" />
+                <p:calendar id="dataVacinacaoFinal" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="15"
+                            value="#{consultarLoteVacinaMBean.loteVacina.dataValidadeFinal}"/>
+            </h:panelGrid>
+
+            <h:outputLabel for="dataFabricacaoInicio" value="#{msg['loteVacina.consultar.dataFabricacao']}"/>
+            <h:panelGrid columns="5" >
+                <p:calendar id="dataFabricacaoInicio" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="15"
+                            value="#{consultarLoteVacinaMBean.loteVacina.dataFabricacaoInicial}"/>
+                <p:spacer width="5" />
+                <p:outputLabel value="até" />
+                <p:spacer width="5" />
+                <p:calendar id="dataFabricacaoFinal" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="15"
+                            value="#{consultarLoteVacinaMBean.loteVacina.dataFabricacaoFinal}"/>
+            </h:panelGrid>
+
+            <h:outputLabel for="numeroLote" value="#{msg['loteVacina.consultar.numeroLote']}"/>
+            <p:inputText id="numeroLote" value="#{consultarLoteVacinaMBean.loteVacina.numeroLote}" size="25"/>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarLoteVacinaMBean.listaLoteVacina}" var="loteVacina" sortBy="#{loteVacina.idLoteVacina}" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}"
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['loteVacina.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}"  sortBy="#{loteVacina.idLoteVacina}" width="7%" style="text-align: center;" >
+                    <h:outputText value="#{loteVacina.idLoteVacina}" />
+                </p:column>
+
+                <p:column headerText="#{msg['loteVacina.consultar.vacina']}" sortBy="#{loteVacina.vacina.nome}" >
+                    <h:outputText value="#{loteVacina.vacina.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['loteVacina.consultar.fabricante']}" sortBy="#{loteVacina.fabricante}" >
+                    <h:outputText value="#{loteVacina.fabricante.nomeFantasia}" />
+                </p:column>
+
+                <p:column headerText="#{msg['loteVacina.consultar.dataFabricacao']}" sortBy="#{loteVacina.dataFabricacao}" width="10%" style="text-align: center;" >
+                    <h:outputText value="#{loteVacina.dataFabricacao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['loteVacina.consultar.dataValidade']}" sortBy="#{loteVacina.dataValidade}" width="10%" style="text-align: center;" >
+                    <h:outputText value="#{loteVacina.dataValidade}" />
+                </p:column>
+
+                <p:column headerText="#{msg['loteVacina.consultar.numeroLote']}" sortBy="#{loteVacina.numero}" width="10%">
+                    <h:outputText value="#{loteVacina.numero}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarLoteVacinaMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarLoteVacinaMBean.visualizar(loteVacina)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarLoteVacinaMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarLoteVacinaMBean.editar(loteVacina)}" />
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarLoteVacinaMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarLoteVacinaMBean.deletar(loteVacina)}">
+                        <p:confirm header="#{msg['loteVacina.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['loteVacina.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

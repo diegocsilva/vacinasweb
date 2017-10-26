@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['permissao.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterPermissaoMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idPermissao" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idPermissao" value="#{manterPermissaoMBean.permissao.idPermissao}" size="10" readonly="true"/>
+
+            <p:outputLabel for="nomePermissao" value="#{msg['permissao.manter.nome']}"/>
+            <p:inputText id="nomePermissao" value="#{manterPermissaoMBean.permissao.nome}" size="50"
+                         required="true" requiredMessage="#{msg['permissao.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="descricaoPermissao" value="#{msg['permissao.manter.descricao']}"/>
+            <p:inputText id="descricaoPermissao" value="#{manterPermissaoMBean.permissao.descricao}" size="50" maxlength="250"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

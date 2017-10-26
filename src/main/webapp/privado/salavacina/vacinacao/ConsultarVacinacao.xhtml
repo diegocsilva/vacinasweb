@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarVacinacaoMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['vacinacao.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['vacinacao.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="aplicador" value="#{msg['vacinacao.consultar.aplicador']}"/>
+            <p:selectOneMenu id="aplicador" value="#{consultarVacinacaoMBean.vacinacao.aplicador.id}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['vacinacao.consultar.selectOneMenu.selecioneFuncionario']}" />
+                <f:selectItems value="#{consultarVacinacaoMBean.listaFuncionarios}" var="funcionario" itemLabel="#{funcionario.nome}" itemDescription="#{funcionario.toString()}"
+                               itemValue="#{funcionario.id}" />
+            </p:selectOneMenu>
+
+            <h:outputLabel for="vacina" value="#{msg['vacinacao.consultar.vacina']}"/>
+            <p:selectOneMenu id="vacina" value="#{consultarVacinacaoMBean.vacina.idVacina}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['vacinacao.consultar.selectOneMenu.selecioneVacina']}" />
+                <f:selectItems value="#{consultarVacinacaoMBean.listaVacinas}" var="vacina" itemLabel="#{vacina.nome}" itemValue="#{vacina.idVacina}" itemDescription="#{vacina.nome}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="paciente" value="#{msg['vacinacao.consultar.paciente']}"/>
+            <p:selectOneMenu id="paciente" value="#{consultarVacinacaoMBean.vacinacao.paciente.id}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['vacinacao.consultar.selectOneMenu.selecionePaciente']}" />
+                <f:selectItems value="#{consultarVacinacaoMBean.listaPacientes}" var="paciente" itemLabel="#{paciente.nome}" itemValue="#{paciente.id}" itemDescription="#{paciente.toString()}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="dataVacinacaoInicio" value="#{msg['vacinacao.consultar.dataVacinacao']}"/>
+            <h:panelGrid columns="5" >
+                <p:calendar id="dataVacinacaoInicio" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="15"
+                            value="#{consultarVacinacaoMBean.dataVacinacaoInicial}"/>
+                <p:spacer width="5" />
+                <p:outputLabel value="até" />
+                <p:spacer width="5" />
+                <p:calendar id="dataVacinacaoFinal" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="15"
+                            value="#{consultarVacinacaoMBean.dataVacinacaoFinal}"/>
+            </h:panelGrid>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarVacinacaoMBean.listaVacinacao}" var="vacinacao" sortBy="#{vacinacao.idVacinacao}" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}"
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['vacinacao.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{vacinacao.idVacinacao}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{vacinacao.idVacinacao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacinacao.consultar.paciente']}" sortBy="#{vacinacao.paciente.nome}" >
+                    <h:outputText value="#{vacinacao.paciente.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacinacao.consultar.dataHoraVacinacao']}" sortBy="#{vacinacao.dataHoraVacinacao}" >
+                    <h:outputText value="#{vacinacao.dataHoraVacinacao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacinacao.consultar.aplicador']}" sortBy="#{vacinacao.aplicador.nome}" >
+                    <h:outputText value="#{vacinacao.aplicador.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacinacao.consultar.vacina']}" sortBy="#{vacinacao.loteVacina.vacina.idVacina}" >
+                    <h:outputText value="#{vacinacao.loteVacina.vacina.idVacina}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarVacinacaoMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarVacinacaoMBean.visualizar(vacinacao)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarVacinacaoMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarVacinacaoMBean.editar(vacinacao)}" />
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarVacinacaoMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarVacinacaoMBean.deletar(vacinacao)}">
+                        <p:confirm header="#{msg['vacinacao.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['vacinacao.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+            <p:outputLabel value="#{msg['sistema.label.codigo']}"/>
+            <p:outputLabel value="#{consultarVacinacaoMBean.vacinacaoSelecionado.idVacinacao}" />
+
+            <p:outputLabel for="nomeVacinacao" value="#{msg['vacinacao.manter.nome']}"/>
+            <p:outputLabel value="#{consultarVacinacaoMBean.vacinacaoSelecionado.nome}"/>
+
+            <p:outputLabel value="#{msg['vacinacao.manter.cidade']}"/>
+            <p:outputLabel value="#{consultarVacinacaoMBean.vacinacaoSelecionado.cidade.nome}"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

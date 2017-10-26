@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['vacinacao.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterVacinacaoMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idVacinacao" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idVacinacao" value="#{manterVacinacaoMBean.vacinacao.idVacinacao}" size="10" readonly="true"/>
+
+            <p:outputLabel for="pacienteVacinacao" value="#{msg['vacinacao.manter.paciente']}"/>
+            <p:selectOneMenu id="pacienteVacinacao" value="#{manterVacinacaoMBean.vacinacao.paciente.id}" filter="true" filterMatchMode="contains" 
+                             required="true" requiredMessage="#{msg['vacinacao.manter.paciente.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['vacinacao.manter.paciente.selecionePaciente']}" />
+                <f:selectItems value="#{manterVacinacaoMBean.listaPacientes}" var="paciente" itemLabel="#{paciente.nome}" itemValue="#{paciente.id}" itemDescription="#{paciente.toString()}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="vacinaVacinacao" value="#{msg['vacinacao.manter.vacina']}"/>
+            <p:selectOneMenu id="vacinaVacinacao" value="#{manterVacinacaoMBean.vacina.idVacina}" filter="true" filterMatchMode="contains"
+                             valueChangeListener="#{manterVacinacaoMBean.atualizarListaLotesVacina()}" immediate="true"
+                             required="true" requiredMessage="#{msg['vacinacao.manter.vacina.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['vacinacao.manter.vacina.selecioneVacina']}" />
+                <f:selectItems value="#{manterVacinacaoMBean.listaVacinas}" var="vacina" itemLabel="#{vacina.nome}" itemDescription="#{vacina.toString()}" 
+                               itemValue="#{vacina.idVacina}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="loteVacinacao" value="#{msg['vacinacao.manter.loteVacina']}"/>
+            <p:selectOneMenu id="loteVacinacao" value="#{manterVacinacaoMBean.vacinacao.loteVacina.idLoteVacina}" filter="true" 
+                             filterMatchMode="contains" required="true"  requiredMessage="#{msg['vacinacao.manter.loteVacina.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['vacinacao.manter.loteVacina.selecioneLoteVacina']}" />
+                <f:selectItems value="#{manterVacinacaoMBean.listaLoteVacinas}" var="loteVacina" itemLabel="#{loteVacina.numero}" itemDescription="#{loteVacina.descricao}" 
+                               itemValue="#{loteVacina.idLoteVacina}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="aplicador" value="#{msg['vacinacao.manter.aplicador']}"/>
+            <p:selectOneMenu id="aplicador" value="#{manterVacinacaoMBean.vacinacao.aplicador.id}" filter="true" filterMatchMode="contains" 
+                             required="true"  requiredMessage="#{msg['vacinacao.manter.aplicador.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['vacinacao.manter.aplicador.selecioneAplicador']}" />
+                <f:selectItems value="#{manterVacinacaoMBean.listaFuncionarios}" var="funcionario" itemLabel="#{funcionario.nome}" itemDescription="#{funcionario.toString()}" 
+                               itemValue="#{funcionario.id}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="dataVacinacao" value="#{msg['vacinacao.manter.dataAplicacao']}"/>
+            <p:calendar id="dataVacinacao" locale="br" pattern="#{msg['sistema.calendar.pattern.data']}" 
+                        value="#{manterVacinacaoMBean.vacinacao.dataHoraVacinacao}" />
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

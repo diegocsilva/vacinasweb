@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['funcionario.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterFuncionarioMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idFuncionario" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idFuncionario" value="#{manterFuncionarioMBean.funcionario.id}" size="10" disabled="true"/>
+
+            <p:outputLabel for="nomeFuncionario" value="#{msg['funcionario.manter.nome']}"/>
+            <p:inputText id="nomeFuncionario" value="#{manterFuncionarioMBean.funcionario.nome}" size="50" required="true" requiredMessage="#{msg['funcionario.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="sexoFuncionario" value="#{msg['funcionario.manter.sexo']}"/>
+            <h:panelGrid columns="2">
+                <p:selectOneRadio id="sexoFuncionario" value="#{manterFuncionarioMBean.funcionario.sexo}" required="true" requiredMessage="#{msg['funcionario.manter.sexo.requiredMessage']}">
+                    <f:selectItems value="#{manterFuncionarioMBean.listaSexos}" var="sexo" itemLabel="#{sexo.descricao}" itemValue="#{sexo}" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+
+            <p:outputLabel for="tipoFuncionario" value="#{msg['funcionario.manter.tipoFuncionario']}"/>
+            <p:selectOneMenu id="tipoFuncionario" value="#{manterFuncionarioMBean.funcionario.tipoFuncionario.idTipoFuncionario}" filter="true" 
+                             filterMatchMode="contains" required="true" requiredMessage="#{msg['funcionario.manter.tipoFuncionario.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['funcionario.manter.tipoFuncionario.selectOneMenu']}" />
+                <f:selectItems value="#{manterFuncionarioMBean.listaTiposFuncionarios}" var="tipoFuncionario" itemLabel="#{tipoFuncionario.nome}" 
+                               itemValue="#{tipoFuncionario.idTipoFuncionario}" itemDescription="#{tipoFuncionario.descricao}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="dataNascimentoFuncionario" value="#{msg['funcionario.manter.dataNascimento']}"/>
+            <p:calendar id="dataNascimentoFuncionario" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" mask="true"
+                        required="true" requiredMessage="#{msg['funcionario.manter.dataNascimento.requiredMessage']}"
+                        value="#{manterFuncionarioMBean.funcionario.dataNascimento}"/>
+
+            <p:outputLabel for="celularFuncionario" value="#{msg['funcionario.manter.celular']}"/>
+            <p:inputMask id="celularFuncionario" value="#{manterFuncionarioMBean.funcionario.celular}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+
+            <p:outputLabel for="telefoneFuncionario" value="#{msg['funcionario.manter.telefone']}"/>
+            <p:inputMask id="telefoneFuncionario" value="#{manterFuncionarioMBean.funcionario.telefone}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+
+            <p:outputLabel for="emailFuncionario" value="#{msg['funcionario.manter.email']}"/>
+            <p:inputText id="emailFuncionario" value="#{manterFuncionarioMBean.funcionario.email}" size="50"/>
+
+            <p:outputLabel value="#{msg['funcionario.manter.endereco']}"/>
+            <h:panelGroup>
+                <ui:include id="fragmentEndereco" src="#{msg['sistema.fragment.endereco']}" >
+                    <ui:param name="endereco" value="#{manterFuncionarioMBean.endereco}" />
+                </ui:include>
+            </h:panelGroup>
+
+            <p:outputLabel for="dataAdmissaoFuncionario" value="#{msg['funcionario.manter.dataAdmissao']}"/>
+            <p:calendar id="dataAdmissaoFuncionario" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" mask="true"
+                        value="#{manterFuncionarioMBean.funcionario.dataAdmissao}"/>
+
+            <p:outputLabel for="dataDemissaoFuncionario" value="#{msg['funcionario.manter.dataDemissao']}"/>
+            <p:calendar id="dataDemissaoFuncionario" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" mask="true"
+                        value="#{manterFuncionarioMBean.funcionario.dataDemissao}"/>
+
+            <p:outputLabel for="situacaoFuncionario" value="#{msg['funcionario.manter.situacao']}"/>
+            <p:selectBooleanButton id="situacaoFuncionario" value="#{manterFuncionarioMBean.funcionario.ativo}" onLabel="Ativo" 
+                                   onIcon="fa fa-check" offLabel="Inativo" offIcon="fa fa-close" />
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

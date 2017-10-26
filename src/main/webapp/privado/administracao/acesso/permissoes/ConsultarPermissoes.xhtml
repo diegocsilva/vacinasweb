@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarPermissaoMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['permissao.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['permissao.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomePermissao" value="#{msg['permissao.consultar.nome']}"/>
+            <p:inputText id="nomePermissao" value="#{consultarPermissaoMBean.permissao.nome}" size="50"/>
+
+            <h:outputLabel for="descricaoPermissao" value="#{msg['permissao.consultar.descricao']}"/>
+            <p:inputText id="descricaoPermissao" value="#{consultarPermissaoMBean.permissao.descricao}" size="50"/>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarPermissaoMBean.listaPermissoes}" var="permissao" sortBy="#{permissao.nome}" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['permissao.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{permissao.idPermissao}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{permissao.idPermissao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['permissao.consultar.nome']}" sortBy="#{permissao.nome}" width="30%" >
+                    <h:outputText value="#{permissao.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['permissao.consultar.descricao']}" sortBy="#{permissao.descricao}" >
+                    <h:outputText value="#{permissao.descricao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarPermissaoMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarPermissaoMBean.visualizar(permissao)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']} #{permissao.idPermissao}" icon="fa fa-edit"
+                                     rendered="#{consultarPermissaoMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarPermissaoMBean.editar(permissao)}"/>
+
+                </p:column>
+
+            </p:dataTable>
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

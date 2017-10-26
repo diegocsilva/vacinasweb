@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['vacina.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['vacina.consultar.dialog.header']}" />
+        <ui:param name="controller" value="#{consultarVacinaMBean}" />
+
+        <ui:define name="camposFiltro">
+
+            <p:outputLabel for="nomeVacina" value="#{msg['vacina.consultar.nome']}" />
+            <p:inputText id="nomeVacina" value="#{consultarVacinaMBean.wrapper.nomeVacina}" />
+
+            <p:outputLabel for="fabricante" value="#{msg['vacina.consultar.fabricante']}" />
+            <p:selectOneMenu id="fabricante" value="#{consultarVacinaMBean.wrapper.fabricante.idEmpresa}" 
+                             filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['vacina.consultar.fabricante.selectOneMenu']}" />
+                <f:selectItems value="#{consultarVacinaMBean.listaFabricantes}" var="fabricante" itemLabel="#{fabricante.nomeFantasia}" itemValue="#{fabricante.idEmpresa}"
+                               itemDescription="#{fabricante.toString()}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel for="fornecedor" value="#{msg['vacina.consultar.fornecedor']}" />
+            <p:selectOneMenu id="fornecedor" value="#{consultarVacinaMBean.wrapper.fornecedor.idEmpresa}" 
+                             filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['vacina.consultar.fornecedor.selectOneMenu']}" />
+                <f:selectItems value="#{consultarVacinaMBean.listaFornecedores}" var="fornecedor" itemLabel="#{fornecedor.nomeFantasia}" itemValue="#{fornecedor.idEmpresa}" 
+                               itemDescription="#{fornecedor.toString()}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel for="usoAdultoVacina" value="#{msg['vacina.consultar.usoAdulto']}" />
+            <p:selectManyCheckbox id="usoAdultoVacina" value="#{consultarVacinaMBean.wrapper.usoAdulto}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.sim.label']}" itemValue="#{msg['sistema.enum.sim.value']}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.nao.label']}" itemValue="#{msg['sistema.enum.nao.value']}" />
+            </p:selectManyCheckbox>
+
+            <p:outputLabel for="usoInfantilVacina" value="#{msg['vacina.consultar.usoInfantil']}" />
+            <p:selectManyCheckbox id="usoInfantilVacina" value="#{consultarVacinaMBean.wrapper.usoInfantil}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.sim.label']}" itemValue="#{msg['sistema.enum.sim.value']}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.nao.label']}" itemValue="#{msg['sistema.enum.nao.value']}" />
+            </p:selectManyCheckbox>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarVacinaMBean.listaVacinas}" var="vacina" sortBy="#{vacina.nome}" 
+                         id="datatable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['vacina.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}"  sortBy="#{vacina.idVacina}" width="10%" style="text-align: center;" >
+                    <h:outputText value="#{vacina.idVacina}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacina.consultar.nome']}" sortBy="#{vacina.nome}" >
+                    <h:outputText value="#{vacina.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacina.consultar.valorVenda']}" sortBy="#{vacina.precoVenda}" width="10%">
+                    <h:outputText value="#{vacina.precoVenda}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacina.consultar.quantidadeMinima']}" sortBy="#{vacina.quantidadeMinima}" width="10%" style="text-align: center;" >
+                    <h:outputText value="#{vacina.quantidadeMinima}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacina.consultar.usoAdulto']}" sortBy="#{vacina.usoAdulto}" width="10%" style="text-align: center;" >
+                    <p:commandButton icon="fa fa-check" rendered="#{vacina.usoAdulto}" />
+                    <p:commandButton icon="fa fa-close" rendered="#{!vacina.usoAdulto}" />
+                </p:column>
+
+                <p:column headerText="#{msg['vacina.consultar.usoInfantil']}" sortBy="#{vacina.usoInfantil}" width="10%" style="text-align: center;" >
+                    <p:commandButton icon="fa fa-check" rendered="#{vacina.usoInfantil}" />
+                    <p:commandButton icon="fa fa-close" rendered="#{!vacina.usoInfantil}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" sortBy="#{vacina.idVacina}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarVacinaMBean.renderizarBotaoVisualizar()}"
+                                     oncomplete="PF('wvDialog_visualizar').show();" 
+                                     action="#{consultarVacinaMBean.visualizar(vacina)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarVacinaMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarVacinaMBean.editar(vacina)}">
+                    </p:commandButton>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarVacinaMBean.renderizarBotaoDeletar()}"
+                                     action="#{consultarVacinaMBean.deletar(bairro)}">
+                        <p:confirm header="#{msg['vacina.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['vacina.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

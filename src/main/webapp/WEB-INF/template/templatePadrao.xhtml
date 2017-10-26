@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputScript library="javascript" name="primefaces.locale.js" />
+        <title>Vacinas Web</title>
+        <link rel="shortcut icon" type="image/icon" href="#{request.contextPath}/favicon.ico"/>
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true" resizeTitle="true" >  
+
+            <p:layoutUnit position="north" id="north" >  
+
+                <f:facet name="header">
+                    <h:link outcome="/privado/areaPrivada.xhtml" >
+                        <p:graphicImage dir="bottom" library="images" name="Logo.png" width="70px" height="70px" style="padding-left: 10px" />
+                    </h:link>
+                    <h:panelGrid rendered="#{not empty seguranca.loginUsuario}" style="float: right;">
+                        <p:outputLabel value="Usuário: #{seguranca.loginUsuario}"/>
+                    </h:panelGrid>
+                </f:facet>
+
+                <h:form id="headerForm">
+                </h:form>
+
+            </p:layoutUnit>  
+
+            <p:layoutUnit position="west" collapsible="true" resizable="true" rendered="#{renderMenu}" size="16%">
+
+                <h:form id="menuForm">
+                    <ui:include src="menuTemplate.xhtml" />
+                </h:form>
+
+            </p:layoutUnit>  
+
+            <p:layoutUnit position="center" id="content" styleClass="layoutUnitCenter" >
+
+                <h:form prependId="false" id="mainForm">
+                    <p:messages autoUpdate="true" id="messages" showSummary="true" closable="true" />
+
+                    <ui:insert name="content" />
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+                    </p:confirmDialog>
+
+                </h:form>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="south" resizable="false" closable="false"
+                          collapsible="false">
+                <f:facet name="header">
+                    Clinica Imunitá - <i>Rua Pedro Celestino, 2893. Telefone 67 3042-1515 ou 67 9162-2432. E-mail: contato@imunita.com.br</i>
+                </f:facet>
+            </p:layoutUnit>
+
+        </p:layout> 
+
+    </h:body>
+
+</html>

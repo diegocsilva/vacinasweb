@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template']}">
+
+        <ui:param name="renderMenu" value="true" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{msg['agenda.manter.panel.header']}" id="panelAgenda" >
+
+                <h:panelGrid columns="2">
+
+                    <p:outputLabel for="idAgenda" value="#{msg['sistema.label.codigo']}"/>
+                    <p:inputText id="idAgenda" value="#{manterAgendaMBean.agenda.idAgenda}" size="10" disabled="true"/>
+
+
+                </h:panelGrid>
+
+                <p:spacer width="20" /> 
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+
+                        <p:commandButton value="#{msg['sistema.botao.salvar.value']}" title="#{msg['sistema.botao.salvar.title']}" 
+                                         rendered="#{manterAgendaMBean.renderizarBotaoSalvarAgenda()}"
+                                         icon="fa-save" action="#{manterAgendaMBean.salvarAgenda()}" update="panelAgenda" />
+
+                        <p:spacer width="10" /> 
+
+                        <p:button value="#{msg['sistema.botao.cancelar.value']}" title="#{msg['sistema.botao.cancelar.title']}" 
+                                  icon="ui-icon-cancel" outcome="ConsultarAgenda" />
+
+                        <p:separator />
+
+                        <p:commandButton value="#{msg['sistema.botao.novo.value']}" title="#{msg['sistema.botao.novo.title']}" 
+                                         rendered="#{manterAgendaMBean.renderizarBotaoNovoAgenda()}"
+                                         action="#{manterAgendaMBean.novoAgenda()}" icon="ui-icon-circle-plus" immediate="true" type="reset"/>
+
+                        <p:spacer width="10" /> 
+
+                        <p:commandButton value="#{msg['sistema.botao.deletar.value']}" title="#{msg['sistema.botao.deletar.title']}" 
+                                         rendered="#{manterAgendaMBean.renderizarBotaoDeletarAgenda()}" icon="ui-icon-circle-close" 
+                                         action="#{manterAgendaMBean.deletarAgenda()}" immediate="true" >
+                            <p:confirm header="#{msg['agenda.manter.deletar.confirm.header']}" 
+                                       message="#{msg['agenda.manter.deletar.confirm.message']}" icon="fa-warning" />
+                        </p:commandButton>
+
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

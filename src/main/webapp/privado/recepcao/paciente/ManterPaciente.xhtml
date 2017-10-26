@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['paciente.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterPacienteMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idPaciente" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idPaciente" value="#{manterPacienteMBean.paciente.id}" size="10" readonly="true"/>
+
+            <p:outputLabel for="nomePaciente" value="#{msg['paciente.manter.nome']}"/>
+            <p:inputText id="nomePaciente" value="#{manterPacienteMBean.paciente.nome}" size="50" maxlength="100"
+                         required="true" requiredMessage="#{msg['paciente.manter.nome.requiredMessage']}"/>            
+
+            <p:outputLabel for="dataNascimento" value="#{msg['paciente.manter.dataNascimento']}" />
+            <p:calendar id="dataNascimento" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" size="20" mask="true" yearRange="c-100:c+1"
+                        required="true" requiredMessage="#{msg['paciente.manter.dataNascimento.requiredMessage']}"
+                        value="#{manterPacienteMBean.paciente.dataNascimento}"/>
+
+            <p:outputLabel for="sexoPaciente" value="#{msg['paciente.manter.sexo']}"/>
+            <h:panelGrid columns="2">
+                <p:selectOneRadio id="sexoPaciente" value="#{manterPacienteMBean.paciente.sexo}" 
+                                  required="true" requiredMessage="#{msg['paciente.manter.sexo.requiredMessage']}">
+                    <f:selectItems value="#{manterPacienteMBean.listaSexos}" var="sexo" itemLabel="#{sexo.descricao}" itemValue="#{sexo}" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+
+            <p:outputLabel for="cpfPaciente" value="#{msg['paciente.manter.cpf']}"/>
+            <p:inputMask id="cpfPaciente" value="#{manterPacienteMBean.paciente.cpf}" size="50" mask="#{msg['sistema.mascara.cpf']}" />
+
+            <p:outputLabel for="celularPaciente" value="#{msg['paciente.manter.celular']}" />
+            <p:inputMask mask="#{msg['sistema.mascara.telefone']}" id="celularPaciente" value="#{manterPacienteMBean.paciente.celular}" size="50" />
+
+            <p:outputLabel for="telefonePaciente" value="#{msg['paciente.manter.telefone']}" />
+            <p:inputMask mask="#{msg['sistema.mascara.telefone']}" id="telefonePaciente" value="#{manterPacienteMBean.paciente.telefone}" size="50" />
+
+            <p:outputLabel for="emailPaciente" value="#{msg['paciente.manter.email']}" />
+            <p:inputText id="emailPaciente" value="#{manterPacienteMBean.paciente.email}" size="50" />
+
+            <p:outputLabel for="situacaoPaciente" value="#{msg['paciente.manter.situacao']}"/>
+            <p:selectBooleanButton id="situacaoPaciente" value="#{manterPacienteMBean.paciente.ativo}" onLabel="Ativo" onIcon="fa fa-check" 
+                                   offLabel="Inativo" offIcon="fa fa-close" />
+
+            <h:panelGroup />
+            <hr />
+
+            <p:outputLabel value="#{msg['paciente.manter.mae']}"/>
+            <h:panelGroup>
+
+                <h:panelGrid columns="4">
+                    <p:outputLabel for="nomeMae" value="#{msg['paciente.manter.nome']}" />
+                    <p:inputText id="nomeMae" value="#{manterPacienteMBean.paciente.nomeMae}" size="50" maxlength="50"/>            
+
+                    <p:outputLabel for="emailMae" value="#{msg['paciente.manter.email']}" />
+                    <p:inputText id="emailMae" value="#{manterPacienteMBean.paciente.emailMae}" size="50" maxlength="50"/>            
+
+                    <p:outputLabel for="celularMae" value="#{msg['paciente.manter.celular']}"/>
+                    <p:inputMask id="celularMae" value="#{manterPacienteMBean.paciente.celularMae}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+
+                    <p:outputLabel for="telefoneMae" value="#{msg['paciente.manter.telefone']}"/>
+                    <p:inputMask id="telefoneMae" value="#{manterPacienteMBean.paciente.telefoneMae}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+                </h:panelGrid>
+
+            </h:panelGroup>
+
+            <h:panelGroup />
+            <hr />
+
+            <p:outputLabel value="#{msg['paciente.manter.pai']}"/>
+            <h:panelGroup>
+
+                <h:panelGrid columns="4">
+                    <p:outputLabel for="nomePai" value="#{msg['paciente.manter.nome']}" />
+                    <p:inputText id="nomePai" value="#{manterPacienteMBean.paciente.nomePai}" size="50" maxlength="50"/>            
+
+                    <p:outputLabel for="emailPai" value="#{msg['paciente.manter.email']}" />
+                    <p:inputText id="emailPai" value="#{manterPacienteMBean.paciente.emailPai}" size="50" maxlength="50"/>            
+
+                    <p:outputLabel for="celularPai" value="#{msg['paciente.manter.celular']}"/>
+                    <p:inputMask id="celularPai" value="#{manterPacienteMBean.paciente.celularPai}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+
+                    <p:outputLabel for="telefonePai" value="#{msg['paciente.manter.telefone']}"/>
+                    <p:inputMask id="telefonePai" value="#{manterPacienteMBean.paciente.telefonePai}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+                </h:panelGrid>
+
+            </h:panelGroup>
+
+            <h:panelGroup />
+            <hr />
+
+            <p:outputLabel value="#{msg['paciente.manter.responsavel']}"/>
+            <h:panelGroup>
+
+                <h:panelGrid columns="4">
+                    <p:outputLabel for="nomeResponsavel" value="#{msg['paciente.manter.nome']}" />
+                    <p:inputText id="nomeResponsavel" value="#{manterPacienteMBean.paciente.nomeResponsavel}" size="50" maxlength="50"/>            
+
+                    <p:outputLabel for="emailResponsavel" value="#{msg['paciente.manter.email']}" />
+                    <p:inputText id="emailResponsavel" value="#{manterPacienteMBean.paciente.emailResponsavel}" size="50" maxlength="50"/>            
+
+                    <p:outputLabel for="celularResponsavel" value="#{msg['paciente.manter.celular']}"/>
+                    <p:inputMask id="celularResponsavel" value="#{manterPacienteMBean.paciente.celularResponsavel}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+
+                    <p:outputLabel for="telefoneResponsavel" value="#{msg['paciente.manter.telefone']}"/>
+                    <p:inputMask id="telefoneResponsavel" value="#{manterPacienteMBean.paciente.telefoneResponsavel}" size="50" mask="#{msg['sistema.mascara.telefone']}" />
+                </h:panelGrid>
+
+            </h:panelGroup>
+
+            <p:outputLabel value="#{msg['paciente.manter.dataCadastro']}" />
+            <p:outputLabel value="#{manterPacienteMBean.paciente.dataCadastro}"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

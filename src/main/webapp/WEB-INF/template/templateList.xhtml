@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template']}" >
+
+        <ui:param name="renderMenu" value="true" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{nomePanelHeader}" id="panelContentList">
+
+                <p:fieldset legend="#{msg['sistema.consultar.fieldset.legend']}" toggleable="true" >
+
+                    <h:panelGrid columns="2">
+
+                        <ui:insert name="camposFiltro" />
+
+                    </h:panelGrid>
+
+                    <p:commandButton value="#{msg['sistema.botao.pesquisa.value']}" title="#{msg['sistema.botao.pesquisa.title']}" 
+                                     icon="fa fa-search" action="#{controller.filtrar()}" update="@widgetVar(widgetVar_dataTable)" 
+                                     styleClass="ui-priority-primary" id="btnBuscar" />
+
+                </p:fieldset>
+
+                <p:spacer height="10" />
+
+                <p:toolbar >
+                    <p:toolbarGroup>
+
+                        <p:spacer width="10" />
+
+                        <p:commandButton value="#{msg['sistema.botao.novo.value']}" title="#{msg['sistema.botao.novo.title']}" immediate="true"
+                                         rendered="#{controller.renderizarBotaoNovo()}" action="#{controller.novo()}" icon="fa fa-plus" />
+
+                        <p:separator />
+
+                        <p:commandButton value="#{msg['sistema.botao.deletar.value']}" title="#{msg['sistema.botao.deletar.title']}" 
+                                         rendered="#{controller.renderizarBotaoDeletarVarios()}" icon="fa fa-trash" immediate="true"
+                                         actionListener="#{controller.deletarVarios()}" >
+                            <p:confirm header="#{msg['template.list.deletarVarios.confirm.header']}" 
+                                       message="#{msg['template.list.deletarVarios.confirm.message']}" icon="fa fa-warning" />
+                        </p:commandButton>
+
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+            </p:panel>
+
+            <ui:insert name="dataTable" />
+
+            <p:dialog id="dialogvisualizar" header="#{headerDialogVisualizar}"
+                      widgetVar="widgetVar_dialogVisualizar" width="500px" height="250px" dynamic="true" 
+                      appendTo="@(body)" modal="true" closeOnEscape="true" closable="true">
+
+                <h:panelGroup id="panelGroup_dialogVisualizar">
+
+                    <p:messages id="messages_dialogVisualizar" />
+
+                    <p:panelGrid columns="2" id="panelGrid_dialogVisualizar" >
+
+                        <ui:insert name="camposDialogVisualizar" />
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </p:dialog>
+
+            <p:blockUI block="mainForm" trigger="btnBuscar" >
+                <h1>Processando...</h1>
+                <p:graphicImage library="images" name="loading.gif"/> 
+            </p:blockUI>
+        </ui:define>
+
+    </ui:composition>
+
+</html>

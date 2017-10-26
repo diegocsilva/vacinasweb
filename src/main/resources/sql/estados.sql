@@ -1,0 +1,28 @@
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Acre', 'AC');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Alagoas', 'AL');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Amazonas', 'AM');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Amapá', 'AP');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Bahia', 'BA');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Ceará', 'CE');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Distrito Federal', 'DF');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Espírito Santo', 'ES');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Goiás', 'GO');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Maranhão', 'MA');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Minas Gerais', 'MG');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Mato Grosso do Sul', 'MS');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Mato Grosso', 'MT');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Pará', 'PA');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Paraíba', 'PB');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Pernambuco', 'PE');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Piauí', 'PI');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Paraná', 'PR');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Rio de Janeiro', 'RJ');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Rio Grande do Norte', 'RN');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Rondônia', 'RO');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Roraima', 'RR');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Rio Grande do Sul', 'RS');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Santa Catarina', 'SC');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Sergipe', 'SE');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('São Paulo', 'SP');
+INSERT INTO `vacinasweb_db`.`estado`(`nome`,`sigla`)VALUES('Tocantins', 'TO');
+

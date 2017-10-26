@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarPerfilMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['perfil.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['perfil.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomePerfil" value="#{msg['perfil.consultar.nome']}"/>
+            <p:inputText id="nomePerfil" value="#{consultarPerfilMBean.perfil.nome}" size="50" maxlength="50"/>
+
+            <h:outputLabel for="descricaoPerfil" value="#{msg['perfil.consultar.descricao']}"/>
+            <p:inputText id="descricaoPerfil" value="#{consultarPerfilMBean.perfil.descricao}" size="50" maxlength="250"/>
+
+            <h:outputLabel for="permissao" value="#{msg['perfil.consultar.permissao']}"/>
+            <p:selectOneMenu id="permissao" value="#{consultarPerfilMBean.permissaoSelecionada.idPermissao}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['perfil.consultar.permissao.selectOneMenu']}" />
+                <f:selectItems value="#{consultarPerfilMBean.listaPermissao}" var="permissao" itemLabel="#{permissao.nome}" itemValue="#{permissao.idPermissao}" 
+                               itemDescription="#{permissao.toString()}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="situacaoPerfil" value="#{msg['perfil.consultar.situacao']}"/>
+            <p:selectManyCheckbox id="situacaoPerfil" value="#{consultarPerfilMBean.ativoInativo}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.ativo.label']}" itemValue="#{msg['sistema.enum.ativo.value']}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.inativo.label']}" itemValue="#{msg['sistema.enum.inativo.value']}" />
+            </p:selectManyCheckbox>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarPerfilMBean.listaPerfis}" var="perfil" rowKey="#{perfil.idPerfil}"
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         paginatorTemplate="#{msg['dataTable.configuracao.paginatorTemplate']}" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         selectionMode="multiple" selection="#{consultarPerfilMBean.listaPerfisSelecionados}" 
+                         emptyMessage="#{msg['perfil.consultar.datatable.emptyMessage']}">
+
+                <p:ajax event="rowSelect" listener="#{consultarPerfilMBean.adicionarPerfilSelecionado}"  />
+                <p:ajax event="rowUnselect" listener="#{consultarPerfilMBean.removerPerfilSelecionado}" />
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{perfil.idPerfil}" width="10%" 
+                          style="text-align: center;">
+                    <h:outputText value="#{perfil.idPerfil}" />
+                </p:column>
+
+                <p:column headerText="#{msg['perfil.consultar.nome']}" sortBy="#{perfil.nome}">
+                    <h:outputText value="#{perfil.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['perfil.consultar.descricao']}" sortBy="#{perfil.descricao}" >
+                    <h:outputText value="#{perfil.descricao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['perfil.consultar.situacao']}" sortBy="#{perfil.ativo}" width="10%" style="text-align: center;">
+                    <p:commandButton icon="fa fa-check" rendered="#{perfil.ativo}" />
+                    <p:commandButton icon="fa fa-times" rendered="#{not perfil.ativo}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarPerfilMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarPerfilMBean.visualizar(bairro)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarPerfilMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarPerfilMBean.editar(perfil)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarPerfilMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarPerfilMBean.deletar(perfil)}">
+                        <p:confirm header="#{msg['estado.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['estado.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+            <p:outputLabel value="#{msg['sistema.label.codigo']}"/>
+            <p:outputLabel value="#{consultarPerfilMBean.perfilSelecionado.idPerfil}" />
+
+            <p:outputLabel for="nomePerfil" value="#{msg['perfil.manter.nome']}"/>
+            <p:outputLabel value="#{consultarPerfilMBean.perfilSelecionado.nome}"/>
+
+            <p:outputLabel value="#{msg['perfil.manter.descricao']}"/>
+            <p:outputLabel value="#{consultarPerfilMBean.perfilSelecionado.descricao}"/>
+
+            <p:dataTable value="#{consultarPerfilMBean.listaPermissoesPerfilSelecionado}" var="permissao" sortBy="#{permissao.nome}" 
+                         id="datatable_permissaoByPerfil" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['permissao.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{permissao.idPermissao}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{permissao.idPermissao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['permissao.consultar.nome']}" sortBy="#{permissao.nome}">
+                    <h:outputText value="#{permissao.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['permissao.consultar.descricao']}" sortBy="#{permissao.descricao}" >
+                    <h:outputText value="#{permissao.descricao}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

@@ -1,0 +1,59 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+
+    <p:panelMenu>
+        <p:submenu label="#{msg['menu.principal']}" expanded="true" rendered="#{menuTemplateMBean.renderizaMenu('MENU-PRINCIPAL')}" >
+            <p:menuitem value="#{msg['menu.principal.home']}" outcome="/privado/areaPrivada.xhtml" icon="fa fa-home" rendered="#{menuTemplateMBean.renderizaMenu('MENU-PRINCIPAL-AREAPRIVADA')}"/>
+            <p:menuitem value="Sobre" outcome="/privado/sobreSistema.xhtml" rendered="#{menuTemplateMBean.renderizaMenu('MENU-PRINCIPAL-SOBRESISTEMA')}" />
+            <p:menuitem value="Sair" url="/j_spring_security_logout" icon="fa fa-power-off" />
+        </p:submenu>
+
+        <p:submenu label="#{msg['menu.recepcao']}" expanded="false" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO')}">
+            <p:menuitem value="#{msg['menu.recepcao.agenda']}" outcome="/privado/recepcao/agenda/ConsultarAgenda.xhtml" icon="fa fa-calendar" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-AGENDA')}"/>
+            <p:menuitem value="#{msg['menu.recepcao.atendimento']}" outcome="/privado/recepcao/atendimento/ConsultarAtendimento.xhtml" icon="fa fa-heartbeat" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-ATENDIMENTO')}"/>
+            <p:menuitem value="#{msg['menu.recepcao.paciente']}"  outcome="/privado/recepcao/paciente/ConsultarPaciente.xhtml" icon="fa fa-wheelchair" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-PACIENTE')}"/>
+            <p:menuitem value="#{msg['menu.recepcao.pessoas']}"  outcome="/privado/recepcao/pessoas/ConsultarPessoa.xhtml" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-PESSOAS')}"/>
+
+            <p:submenu label="#{msg['menu.recepcao.cadastroBasico']}" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-CADASTROBASICO')}">
+                <p:menuitem value="#{msg['menu.recepcao.cadastroBasico.estado']}" outcome="/privado/cadastro/estado/ConsultarEstado.xhtml" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-CADASTROBASICO-ESTADO')}"/>
+                <p:menuitem value="#{msg['menu.recepcao.cadastroBasico.cidade']}" outcome="/privado/cadastro/cidade/ConsultarCidade.xhtml#" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-CADASTROBASICO-CIDADE')}"/>
+                <p:menuitem value="#{msg['menu.recepcao.cadastroBasico.bairro']}" outcome="/privado/cadastro/bairro/ConsultarBairro.xhtml" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RECEPCAO-CADASTROBASICO-BAIRRO')}"/>
+            </p:submenu>
+        </p:submenu>
+
+        <p:submenu label="#{msg['menu.salaDeVacinas']}" icon="fa fa-flask" rendered="#{menuTemplateMBean.renderizaMenu('MENU-SALAVACINAS')}">
+            <p:menuitem value="#{msg['menu.salaDeVacinas.vacinacao']}" outcome="/privado/salavacina/vacinacao/ConsultarVacinacao.xhtml" icon="fa fa-recycle" rendered="#{menuTemplateMBean.renderizaMenu('MENU-SALAVACINAS-VACINACAO')}" />
+            <p:menuitem value="#{msg['menu.salaDeVacinas.estoqueVacina']}" outcome="/privado/salavacina/estoque/ConsultarEstoqueVacina.xhtml" icon="fa fa-medkit" rendered="#{menuTemplateMBean.renderizaMenu('MENU-SALAVACINAS-ESTOQUEVACINA')}"/>
+            <p:menuitem value="#{msg['menu.salaDeVacinas.vacina']}" outcome="/privado/salavacina/vacina/ConsultarVacina.xhtml" icon="fa fa-eyedropper" rendered="#{menuTemplateMBean.renderizaMenu('MENU-SALAVACINAS-VACINA')}"/>
+            <p:menuitem value="#{msg['menu.salaDeVacinas.loteVacina']}" outcome="/privado/salavacina/lote/ConsultarLoteVacina.xhtml" icon="fa fa-eyedropper" rendered="#{menuTemplateMBean.renderizaMenu('MENU-SALAVACINAS-LOTEVACINA')}"/>
+        </p:submenu>
+
+        <p:submenu label="Contato" icon="fa fa-rss" rendered="#{menuTemplateMBean.renderizaMenu('MENU-CONTATO')}">
+            <p:menuitem value="E-Mail Marketing" icon="fa fa-envelope"  rendered="#{menuTemplateMBean.renderizaMenu('MENU-CONTATO-EMAIL')}"/>
+            <p:menuitem value="SMS Marketing" icon="fa fa-whatsapp" rendered="#{menuTemplateMBean.renderizaMenu('MENU-CONTATO-SMS')}"/>
+        </p:submenu>
+
+        <p:submenu label="Relatórios" icon="fa fa-print" rendered="#{menuTemplateMBean.renderizaMenu('MENU-RELATORIOS')}">
+            <p:menuitem value="Vacinas Aplicadas" rendered="#{menuTemplateMBean.renderizaMenu('')}"/>
+            <p:menuitem value="Estoque de Vacinas" rendered="#{menuTemplateMBean.renderizaMenu('')}"/>
+            <p:menuitem value="Pacientes" rendered="#{menuTemplateMBean.renderizaMenu('')}"/>
+            <p:menuitem value="Consultas Agendadas" rendered="#{menuTemplateMBean.renderizaMenu('')}" />
+            <p:menuitem value="Atendimentos" icon="fa fa-stethoscope" rendered="#{menuTemplateMBean.renderizaMenu('')}" />
+        </p:submenu>
+
+        <p:submenu label="#{msg['menu.administracao']}" icon="fa fa-gears" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO')}">
+            <p:menuitem value="#{msg['menu.administracao.funcionario']}" outcome="/privado/administracao/funcionario/ConsultarFuncionario.xhtml" icon="fa fa-user-md" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-FUNCIONARIO')}"/> 
+            <p:menuitem value="#{msg['menu.administracao.tipoFuncionario']}" outcome="/privado/administracao/tipoFuncionario/ConsultarTipoFuncionario.xhtml" icon="fa fa-user-md" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-TIPOFUNCIONARIO')}"/> 
+            <p:menuitem value="#{msg['menu.administracao.empresa']}"  outcome="/privado/administracao/empresa/ConsultarEmpresa.xhtml" icon="fa fa-industry" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-EMPRESA')}"/> 
+
+            <p:submenu label="#{msg['menu.administracao.acesso']}" icon="fa fa-unlock-alt" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-ACESSO')}">
+                <p:menuitem value="#{msg['menu.administracao.acesso.usuario']}" outcome="/privado/administracao/acesso/usuario/ConsultarUsuario.xhtml" icon="fa fa-user" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-ACESSO-USUARIO')}"/>
+                <p:menuitem value="#{msg['menu.administracao.acesso.perfil']}" outcome="/privado/administracao/acesso/perfil/ConsultarPerfil.xhtml" icon="fa fa-users" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-ACESSO-PERFIL')}" />
+                <p:menuitem value="#{msg['menu.administracao.acesso.permissoes']}" outcome="/privado/administracao/acesso/permissoes/ConsultarPermissoes.xhtml" icon="fa fa-unlock" rendered="#{menuTemplateMBean.renderizaMenu('MENU-ADMINISTRACAO-ACESSO-PERMISSAO')}"/>
+            </p:submenu>
+        </p:submenu>
+
+    </p:panelMenu>
+
+</ui:fragment>

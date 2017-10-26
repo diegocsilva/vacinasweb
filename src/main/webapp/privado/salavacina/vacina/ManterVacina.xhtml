@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['vacina.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterVacinaMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idVacina" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idVacina" value="#{manterVacinaMBean.vacina.idVacina}" size="10" readonly="true"/>
+
+            <p:outputLabel for="nomeVacina" value="#{msg['vacina.manter.nome']}"/>
+            <p:inputText id="nomeVacina" value="#{manterVacinaMBean.vacina.nome}" size="50" maxlength="100" />
+
+            <p:outputLabel for="precoVacina" value="#{msg['vacina.manter.precoVenda']}"/>
+            <p:inputText id="precoVacina" value="#{manterVacinaMBean.vacina.precoVenda}" size="50" type="number" maxlength="10" />
+
+            <p:outputLabel for="qtdeMinimaVacina" value="#{msg['vacina.manter.quantidadeMinima']}"/>
+            <p:inputText id="qtdeMinimaVacina" value="#{manterVacinaMBean.vacina.quantidadeMinima}" size="50" type="number" maxlength="10" />
+
+            <p:outputLabel for="usoAdultoVacina" value="#{msg['vacina.manter.usoAdulto']}"/>
+            <p:selectBooleanButton id="usoAdultoVacina" value="#{manterVacinaMBean.vacina.usoAdulto}" onLabel="Sim" 
+                                   onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" />
+
+            <p:outputLabel for="usoInfantilVacina" value="#{msg['vacina.manter.usoInfantil']}"/>
+            <p:selectBooleanButton id="usoInfantilVacina" value="#{manterVacinaMBean.vacina.usoInfantil}" onLabel="Sim" 
+                                   onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" />
+
+            <p:spacer />
+            
+            <p:dataTable value="#{manterVacinaMBean.listaEmpresas}" var="empresa" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         paginatorTemplate="#{msg['dataTable.configuracao.paginatorTemplate']}"  
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         emptyMessage="#{msg['empresa.manter.datatable.emptyMessage']}" >
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{empresa.idEmpresa}" />
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.manter.nomeFantasia']}" sortBy="#{empresa.nomeFantasia}">
+                    <h:outputText value="#{empresa.nomeFantasia}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.manter.cnpj']}" sortBy="#{empresa.CNPJ}" width="15%" style="text-align: center;">
+                    <h:outputText value="#{empresa.CNPJ}" />
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.manter.fabricante']}" width="10%" style="text-align: center;">
+                    <p:selectBooleanButton id="empresaFabricante" value="#{manterVacinaMBean.fabricante}" onLabel="Sim" 
+                                           rendered="#{manterVacinaMBean.validaEmpresaFabricante(empresa)}"
+                                           onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" >
+                        <p:ajax update="@this" listener="#{manterVacinaMBean.atualizaFabricante(empresa)}" />
+                    </p:selectBooleanButton>                    
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.manter.fornecedor']}" width="10%" style="text-align: center;">
+                    <p:selectBooleanButton id="empresaFornecedor" value="#{manterVacinaMBean.fornecedor}" onLabel="Sim" 
+                                           rendered="#{manterVacinaMBean.validaEmpresaFornecedor(empresa)}"
+                                           onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" >
+                        <p:ajax update="@this" listener="#{manterVacinaMBean.atualizaFornecedor(empresa)}" />
+                    </p:selectBooleanButton>
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

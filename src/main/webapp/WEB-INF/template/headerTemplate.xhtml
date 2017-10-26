@@ -1,0 +1,40 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div id="header">
+        <!--<h:graphicImage url="/tema/imagens/topo.jpg" />-->
+        <div class="ui-grid ui-grid-responsive" style="background-color: #828282; alignment-adjust: central">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-8">
+                    <div class="ui-grid-col-1">    
+                        <h:link outcome="/privado/areaPrivada.xhtml">
+                            <p:graphicImage name="vacina.png" library="images" height="50px" />
+                        </h:link>
+                    </div>
+                    <div class="ui-grid-col-7">
+                        <h:outputLabel for="sistema" value="#{msg['header.label.sistema']}" style="font-size: xx-large; font-style: inherit; color: darkblue; position: relative"/>
+                    </div>
+                </div>
+                <div class="ui-grid-col-4" >
+                    <p:commandLink id="sair" actionListener="#{buttonView.buttonAction}" >
+                        <h:outputText value="Logout" />
+                    </p:commandLink>
+                </div>
+            </div>
+        </div>
+
+        <!--        <p:menubar>
+        
+                    <p:menuitem value="Quit" url="http://www.primefaces.org" style="margin-right: 10px" icon="ui-icon-close" />
+        
+                    <f:facet name="options">
+                        <p:inputText style="margin-right:10px" placeholder="Search"/>
+                        <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>-->
+    </div>
+
+</ui:fragment>

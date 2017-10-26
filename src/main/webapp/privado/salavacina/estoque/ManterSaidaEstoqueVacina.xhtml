@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['saidaEstoqueVacina.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterSaidaEstoqueVacina}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idSaidaEstoque" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idSaidaEstoque" value="#{manterSaidaEstoqueVacina.saidaEstoque.idSaidaEstoque}" size="10" readonly="true"/>
+
+            <p:outputLabel for="estoqueVacina" value="#{msg['saidaEstoqueVacina.manter.estoqueVacina']}"/>
+            <p:inputText id="estoqueVacina" value="#{manterSaidaEstoqueVacina.saidaEstoque.estoqueVacina}" size="50" readonly="true"/>
+
+            <p:outputLabel for="dataSaida" value="#{msg['saidaEstoqueVacina.manter.dataSaida']}"/>
+            <p:calendar id="dataSaida" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" mask="true"
+                        value="#{manterSaidaEstoqueVacina.saidaEstoque.dataSaida}"/>
+
+            <p:outputLabel for="quantidade" value="#{msg['saidaEstoqueVacina.manter.quantidade']}"/>
+            <p:inputText id="quantidade" value="#{manterSaidaEstoqueVacina.saidaEstoque.quantidade}}" size="50" type="number"/>
+
+            <p:outputLabel for="tipoSaida" value="#{msg['saidaEstoqueVacina.manter.tipoSaida']}"/>
+            <h:panelGrid columns="2">
+                <p:selectOneRadio id="tipoSaida" value="#{manterSaidaEstoqueVacina.saidaEstoque.tipoSaida}" required="true" requiredMessage="#{msg['funcionario.manter.sexo.requiredMessage']}">
+                    <f:selectItems value="#{manterSaidaEstoqueVacina.listaTipoSaida}" var="tipoSaida" itemLabel="#{tipoSaida.descricao}" itemValue="#{tipoSaida}" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+
+            <p:outputLabel for="motivo" value="#{msg['saidaEstoqueVacina.manter.motivo']}"/>
+            <h:panelGrid columns="2">
+                <p:selectOneRadio id="motivo" value="#{manterSaidaEstoqueVacina.saidaEstoque.motivo}" required="true" requiredMessage="#{msg['funcionario.manter.sexo.requiredMessage']}">
+                    <f:selectItems value="#{manterSaidaEstoqueVacina.listaMotivos}" var="motivo" itemLabel="#{motivo.descricao}" itemValue="#{motivo}" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+
+            <p:outputLabel for="responsavel" value="#{msg['saidaEstoqueVacina.manter.responsavel']}"/>
+            <p:selectOneMenu id="responsavel" value="#{manterSaidaEstoqueVacina.saidaEstoque.responsavel.id}" filter="true" filterMatchMode="contains" 
+                             required="true"  requiredMessage="#{msg['saidaEstoqueVacina.manter.responsavel.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['saidaEstoqueVacina.manter.responsavel.selecione']}" />
+                <f:selectItems value="#{manterSaidaEstoqueVacina.listaResponsaveis}" var="responsavel" itemLabel="#{responsavel.nome}" itemDescription="#{responsavel.toString()}" 
+                               itemValue="#{responsavel.id}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="observacao" value="#{msg['saidaEstoqueVacina.manter.observacao']}"/>
+            <p:inputTextarea id="observacao" value="#{manterSaidaEstoqueVacina.saidaEstoque.observacao}"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

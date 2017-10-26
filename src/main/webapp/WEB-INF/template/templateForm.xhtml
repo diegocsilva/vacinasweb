@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template']}" >
+
+        <ui:param name="renderMenu" value="true" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{nomePanelHeader}" id="panelContentForm" >
+
+                <h:panelGrid columns="2">
+
+                    <ui:insert name="camposForm" />
+
+                </h:panelGrid>
+
+                <p:spacer width="20" /> 
+
+                <p:toolbar id="toolbarBotoesFormulario">
+                    <p:toolbarGroup id="toolbarGroupLeftBotoesFormulario" align="left">
+
+                        <p:commandButton id="btnSalvar" value="#{msg['sistema.botao.salvar.value']}" title="#{msg['sistema.botao.salvar.title']}" 
+                                         rendered="#{controller.renderizarBotaoSalvar()}" icon="fa fa-save" action="#{controller.salvar()}" />
+
+                        <p:spacer width="10" /> 
+
+                        <p:commandButton value="#{msg['sistema.botao.cancelar.value']}" title="#{msg['sistema.botao.cancelar.title']}" 
+                                         icon="fa fa-times" action="#{controller.cancelar()}" immediate="true" />
+
+                        <p:separator />
+
+                        <p:commandButton value="#{msg['sistema.botao.novo.value']}" title="#{msg['sistema.botao.novo.title']}" 
+                                         rendered="#{controller.renderizarBotaoNovo()}" action="#{controller.novo()}" icon="fa fa-plus" 
+                                         immediate="true" update="@form"/>
+
+                        <p:spacer width="10" /> 
+
+                        <p:commandButton value="#{msg['sistema.botao.deletar.value']}" title="#{msg['sistema.botao.deletar.title']}" 
+                                         rendered="#{controller.renderizarBotaoDeletar()}"
+                                         action="#{controller.deletar()}" icon="fa fa-trash" immediate="true" >
+                            <p:confirm header="#{msg['template.form.deletar.confirm.header']}" 
+                                       message="#{msg['template.form.deletar.confirm.message']}" icon="fa fa-warning" />
+                        </p:commandButton>
+
+                        <p:separator />
+
+                        <ui:insert name="botoesToolbarGroupLeft" />
+
+                    </p:toolbarGroup>
+
+                    <p:toolbarGroup id="toolbarGroupRightBotoesFormulario" align="right">
+
+                        <ui:insert name="botoesToolbarGroupRight" />
+
+                    </p:toolbarGroup>
+
+                </p:toolbar>
+
+                <p:blockUI block="mainForm" trigger="btnSalvar" >
+                    <h1>Processando...</h1>
+                    <p:graphicImage library="images" name="loading.gif"/> 
+                </p:blockUI>
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

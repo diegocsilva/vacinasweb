@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:fragment id="fragmentEndereco">
+
+        <h:panelGrid columns="2">
+
+            <h:outputLabel for="estado" value="#{msg['endereco.consultar.estado']}"/>
+            <p:selectOneMenu id="estado" value="#{endereco.bairro.cidade.estado.idEstado}" filter="true" filterMatchMode="contains" >
+                <f:selectItem itemLabel="#{msg['endereco.consultar.estado.selectOneMenu']}" />
+                <f:selectItems value="#{fragmentEnderecoMBean.listaEstados}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.idEstado}"
+                               itemDescription="#{estado.toString()}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="cidade" value="#{msg['endereco.consultar.cidade']}" />
+            <p:selectOneMenu id="cidade" value="#{endereco.bairro.cidade.idCidade}" filter="true" filterMatchMode="contains" >
+                <f:selectItem itemLabel="#{msg['endereco.consultar.cidade.selectOneMenu']}" />
+                <f:selectItems value="#{fragmentEnderecoMBean.listaCidades}" var="cidade" itemLabel="#{cidade.nome}" itemValue="#{cidade.idCidade}" 
+                               itemDescription="#{cidade.toString()}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="bairro" value="#{msg['endereco.consultar.bairro']}"/>
+            <p:selectOneMenu id="bairro" value="#{endereco.bairro.idBairro}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['endereco.consultar.bairro.selectOneMenu']}" />
+                <f:selectItems value="#{fragmentEnderecoMBean.listaBairros}" var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro.idBairro}" 
+                               itemDescription="#{bairro.toString()}"/>
+            </p:selectOneMenu> 
+
+            <p:outputLabel value="#{msg['endereco.consultar.rua']}"/>
+            <p:inputText id="rua" value="#{endereco.nome}" />                
+
+            <p:outputLabel value="#{msg['endereco.consultar.numero']}"/>
+            <p:inputText id="numero" value="#{endereco.numero}" size="2"/>
+
+            <p:outputLabel value="#{msg['endereco.consultar.complemento']}"/>
+            <p:inputText id="complemento" value="#{endereco.complemento}" />
+
+        </h:panelGrid>
+    </ui:fragment>
+
+</html>

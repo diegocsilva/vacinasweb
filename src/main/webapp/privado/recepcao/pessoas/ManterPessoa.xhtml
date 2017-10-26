@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['pessoa.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterPessoaMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idPessoa" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idPessoa" value="#{manterPessoaMBean.pessoa.id}" size="10" disabled="true"/>
+
+            <p:outputLabel for="nomePessoa" value="#{msg['pessoa.manter.nome']}"/>
+            <p:inputText id="nomePessoa" value="#{manterPessoaMBean.pessoa.nome}" size="50"
+                         required="true" requiredMessage="#{msg['pessoa.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="dataNascimentoPessoa" value="Data Nascimento"/>
+            <p:calendar id="dataNascimentoPessoa" locale="br" navigator="true" pattern="#{msg['sistema.calendar.pattern.data']}" 
+                        value="#{manterPessoaMBean.pessoa.dataNascimento}" 
+                        required="true" requiredMessage="#{msg['pessoa.manter.dataNascimento.requiredMessage']}"/>
+
+            <p:outputLabel for="emailPessoa" value="#{msg['pessoa.manter.email']}"/>
+            <p:inputText id="emailPessoa" value="#{manterPessoaMBean.pessoa.email}" size="50"/>
+
+            <p:outputLabel for="sexoPessoa" value="#{msg['pessoa.manter.sexo']}"/>
+            <h:panelGrid columns="2">
+                <p:selectOneRadio id="sexoPessoa" value="#{manterPessoaMBean.pessoa.sexo}">
+                    <f:selectItems value="#{manterPessoaMBean.listaSexo}" var="sexo" itemLabel="#{sexo.descricao}" itemValue="#{sexo}" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

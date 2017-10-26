@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarCidadeMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['cidade.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['cidade.consultar.dialog.header']}"/>
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomeCidade" value="#{msg['cidade.consultar.nome']}"/>
+            <p:inputText id="nomeCidade" value="#{consultarCidadeMBean.cidade.nome}" size="50" maxlength="50"/>
+
+            <h:outputLabel for="estado" value="#{msg['cidade.consultar.estado']}"/>
+            <p:selectOneMenu id="estado" value="#{consultarCidadeMBean.cidade.estado.idEstado}" filter="true" filterMatchMode="contains" >
+                <f:selectItem itemLabel="#{msg['cidade.consultar.estado.selectOneMenu']}" />
+                <f:selectItems value="#{consultarCidadeMBean.listaEstados}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.idEstado}" itemDescription="#{estado.toString()}"/>
+            </p:selectOneMenu>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarCidadeMBean.listaCidade}" var="cidade" sortBy="#{cidade.nome}" 
+                         id="dataTable" paginator="true" paginatorAlwaysVisible="false" widgetVar="widgetVar_dataTable"
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['cidade.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" width="10%" sortBy="#{cidade.idCidade}" style="text-align: center;">
+                    <h:outputText value="#{cidade.idCidade}" />
+                </p:column>
+
+                <p:column headerText="#{msg['cidade.consultar.nome']}" sortBy="#{cidade.nome}">
+                    <h:outputText value="#{cidade.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['cidade.consultar.estado']}" sortBy="#{cidade.estado.nome}" >
+                    <h:outputText value="#{cidade.estado.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="15%" style="text-align: center;">
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarCidadeMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarCidadeMBean.visualizar(cidade)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarCidadeMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarCidadeMBean.editar(cidade)}" />
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarCidadeMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarCidadeMBean.deletar(cidade)}">
+                        <p:confirm header="#{msg['cidade.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['cidade.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

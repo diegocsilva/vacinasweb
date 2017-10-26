@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarUsuarioMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['usuario.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['usuario.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomeUsuario" value="#{msg['usuario.consultar.nome']}"/>
+            <p:selectOneMenu id="nomeUsuario" value="#{consultarUsuarioMBean.usuario.funcionario.id}" filter="true" 
+                             filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['usuario.consultar.selectOneMenu.selecione']}" />
+                <f:selectItems value="#{consultarUsuarioMBean.listaFuncionarios}" var="funcionario" itemLabel="#{funcionario.nome}" 
+                               itemDescription="#{funcionario.toString()}" itemValue="#{funcionario.id}" />
+            </p:selectOneMenu>
+
+            <h:outputLabel for="perfil" value="#{msg['usuario.consultar.perfil']}"/>
+            <p:selectOneMenu id="perfil" value="#{consultarUsuarioMBean.usuario.perfil.idPerfil}"  filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['usuario.consultar.perfil.selectOneMenu']}" />
+                <f:selectItems value="#{consultarUsuarioMBean.listaPerfis}" var="perfil" itemDescription="#{perfil.descricao}" itemLabel="#{perfil.nome}"
+                               itemValue="#{perfil.idPerfil}" />
+            </p:selectOneMenu>
+
+            <h:outputLabel for="loginUsuario" value="#{msg['usuario.consultar.login']}"/>
+            <p:inputText id="loginUsuario" value="#{consultarUsuarioMBean.usuario.login}" size="50"/>
+
+            <h:outputLabel for="situacao" value="#{msg['usuario.consultar.situacao']}"/>
+            <p:selectOneRadio id="situacao" value="#{consultarUsuarioMBean.usuario.situacao}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.ativo.label']}" itemValue="#{true}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.inativo.label']}" itemValue="#{false}" />
+            </p:selectOneRadio>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarUsuarioMBean.listaUsuarios}" var="usuario" sortBy="#{usuario.login}" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['usuario.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{usuario.idUsuario}"  width="10%" style="text-align: center;">
+                    <h:outputText value="#{usuario.idUsuario}" />
+                </p:column>
+
+                <p:column headerText="#{msg['usuario.consultar.login']}" sortBy="#{usuario.login}">
+                    <h:outputText value="#{usuario.login}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['usuario.consultar.nome']}" sortBy="#{usuario.funcionario.nome}" >
+                    <h:outputText value="#{usuario.funcionario.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['usuario.consultar.administrador']}" sortBy="#{usuario.administrador}"  width="10%" style="text-align: center;" >
+                    <p:commandButton icon="fa fa-check" rendered="#{usuario.administrador}" />
+                    <p:commandButton icon="fa fa-times" rendered="#{not usuario.administrador}" />
+                </p:column>
+
+                <p:column headerText="#{msg['usuario.consultar.situacao']}" sortBy="#{usuario.ativo}" width="10%" style="text-align: center;" >
+                    <p:commandButton icon="fa fa-check" rendered="#{usuario.ativo}" />
+                    <p:commandButton icon="fa fa-times" rendered="#{not usuario.ativo}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarUsuarioMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarUsuarioMBean.visualizar(usuario)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarUsuarioMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarUsuarioMBean.editar(usuario)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarUsuarioMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarUsuarioMBean.deletar(usuario)}">
+                        <p:confirm header="#{msg['usuario.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['usuario.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

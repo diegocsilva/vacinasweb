@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['tipoFuncionario.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterTipoFuncionarioMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idTipoFuncionario" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idTipoFuncionario" value="#{manterTipoFuncionarioMBean.tipoFuncionario.idTipoFuncionario}" size="10" disabled="true"/>
+
+            <p:outputLabel for="nomeTipoFuncionario" value="#{msg['tipoFuncionario.manter.nome']}"/>
+            <p:inputText id="nomeTipoFuncionario" value="#{manterTipoFuncionarioMBean.tipoFuncionario.nome}" size="50" maxlength="100"
+                         required="true" requiredMessage="#{msg['tipoFuncionario.manter.nome.requiredMessage']}" />
+
+            <p:outputLabel for="descricaoTipoFuncionario" value="#{msg['tipoFuncionario.manter.descricao']}"/>
+            <p:inputText id="descricaoTipoFuncionario" value="#{manterTipoFuncionarioMBean.tipoFuncionario.descricao}" size="50" maxlength="250"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

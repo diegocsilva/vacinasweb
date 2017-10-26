@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="controller" value="#{manterCidadeMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['cidade.manter.panel.header']}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idCidade" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idCidade" value="#{manterCidadeMBean.cidade.idCidade}" size="10" readonly="true" />
+
+            <p:outputLabel for="nomeCidade" value="#{msg['cidade.manter.nome']}"/>
+            <p:inputText id="nomeCidade" value="#{manterCidadeMBean.cidade.nome}" size="50" maxlength="50"
+                         required="true" requiredMessage="#{msg['cidade.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="estado" value="#{msg['cidade.manter.estado']}"/>
+            <p:selectOneMenu id="estado" value="#{manterCidadeMBean.cidade.estado.idEstado}" filter="true" filterMatchMode="startsWith"
+                             required="true" requiredMessage="#{msg['cidade.manter.estado.requiredMessage']}" >
+                <f:selectItem itemLabel="#{msg['cidade.manter.estado.selectOneMenu']}" itemValue=""/>
+                <f:selectItems value="#{manterCidadeMBean.listaEstados}" var="estado" itemLabel="#{estado.nome}" itemValue="#{estado.idEstado}" itemDescription="#{estado.toString()}"/>
+            </p:selectOneMenu>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

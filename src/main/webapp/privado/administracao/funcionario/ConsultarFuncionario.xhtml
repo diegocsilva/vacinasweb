@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarFuncionarioMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['funcionario.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['funcionario.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomeFuncionario" value="#{msg['funcionario.consultar.nome']}"/>
+            <p:inputText id="nomeFuncionario" value="#{consultarFuncionarioMBean.funcionario.nome}" size="50"/>
+
+            <h:outputLabel for="tipoFuncionario" value="#{msg['funcionario.consultar.tipoFuncionario']}"/>
+            <p:selectOneMenu id="tipoFuncionario" value="#{consultarFuncionarioMBean.tipoFuncionario.idTipoFuncionario}" filter="true" filterMatchMode="contains"> 
+                <f:selectItem itemLabel="#{msg['funcionario.consultar.tipoFuncionario.selectOneMenu']}" />
+                <f:selectItems value="#{consultarFuncionarioMBean.listaTiposFuncionarios}" var="tipoFuncionario" itemLabel="#{tipoFuncionario.nome}" 
+                               itemDescription="#{tipoFuncionario.descricao}"  itemValue="#{tipoFuncionario.idTipoFuncionario}" />
+            </p:selectOneMenu>
+
+            <h:outputLabel for="situacao" value="#{msg['funcionario.consultar.situacao']}"/>
+            <p:selectOneRadio id="situacao" value="#{consultarFuncionarioMBean.funcionario.ativo}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.ativo.label']}" itemValue="#{true}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.inativo.label']}" itemValue="#{false}" />
+            </p:selectOneRadio>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarFuncionarioMBean.listaFuncionarios}" var="funcionario" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         paginatorTemplate="#{msg['dataTable.configuracao.paginatorTemplate']}" 
+                         rows="#{msg['dataTable.configuracao.rows']}"
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" rowKey="#{funcionario.id}"
+                         selectionMode="multiple" selection="#{consultarFuncionarioMBean.listaFuncionariosSelecionado}"
+                         emptyMessage="#{msg['perfil.consultar.datatable.emptyMessage']}" >
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{funcionario.id}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{funcionario.id}" />
+                </p:column>
+
+                <p:column headerText="#{msg['funcionario.consultar.nome']}" sortBy="#{funcionario.nome}">
+                    <h:outputText value="#{funcionario.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['funcionario.consultar.tipoFuncionario']}" sortBy="#{funcionario.tipoFuncionario}" >
+                    <h:outputText value="#{funcionario.tipoFuncionario}" />
+                </p:column>
+
+                <p:column headerText="#{msg['funcionario.consultar.celular']}" sortBy="#{funcionario.celular}" width="10%" style="text-align: center;" >
+                    <h:outputText value="#{funcionario.celular}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['funcionario.consultar.email']}" sortBy="#{funcionario.email}" >
+                    <h:outputText value="#{funcionario.email}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['funcionario.consultar.situacao']}" sortBy="#{funcionario.ativo}" width="7%" style="text-align: center;" >
+                    <p:commandButton icon="fa fa-check" rendered="#{funcionario.ativo}" />
+                    <p:commandButton icon="fa fa-close" rendered="#{!funcionario.ativo}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarFuncionarioMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarFuncionarioMBean.visualizar(funcionario)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarFuncionarioMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarFuncionarioMBean.editar(funcionario)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarFuncionarioMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarFuncionarioMBean.deletar(funcionario)}">
+                        <p:confirm header="#{msg['estado.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['estado.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+
+            </p:dataTable>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['pessoa.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['pessoa.consultar.dialog.header']}" />
+        <ui:param name="controller" value="#{consultarPessoaMBean}" />
+
+        <ui:define name="camposFilto">
+
+            <h:outputLabel for="nomeBairro" value="#{msg['bairro.consultar.nome']}"/>
+            <p:inputText id="nomeBairro" value="#{consultarPessoaMBean.pessoa.nome}" size="50"/>
+
+            <p:outputLabel for="" value="" />
+            <p:inputText id="" value="#{consultarPessoaMBean.pessoa}"/>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarPessoaMBean.listaPessoas}" var="pessoa" sortBy="#{pessoa.nome}" 
+                         id="datatable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['pessoa.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{bairro.idBairro}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{bairro.idBairro}" />
+                </p:column>
+
+                <p:column headerText="#{msg['pessoa.consultar.nome']}" sortBy="#{pessoa.nome}">
+                    <h:outputText value="#{pessoa.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['pessoa.consultar.celular']}" sortBy="#{pessoa.celular}" >
+                    <h:outputText value="#{pessoa.celular}" />
+                </p:column>
+
+                <p:column headerText="#{msg['pessoa.consultar.telefone']}" sortBy="#{pessoa.telefone}" >
+                    <h:outputText value="#{pessoa.telefone}" />
+                </p:column>
+
+                <p:column headerText="#{msg['pessoa.consultar.email']}" sortBy="#{pessoa.email}" >
+                    <h:outputText value="#{pessoa.email}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarPessoeMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarPessoaMBean.visualizar(pessoa)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarPessoaMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarPessoaMBean.editar(pessoa)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarPessoaMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_DataTable)"
+                                     action="#{consultarPessoaMBean.deletar(pessoa)}">
+                        <p:confirm header="#{msg['pessoa.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['pessoa.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+            <p:outputLabel value="#{msg['sistema.label.codigo']}"/>
+            <p:outputLabel value="#{consultarPessoaMBean.bairroSelecionado.idBairro}" />
+
+            <p:outputLabel for="nomeBairro" value="#{msg['bairro.manter.nome']}"/>
+            <p:outputLabel value="#{consultarPessoaMBean.bairroSelecionado.nome}"/>
+
+            <p:outputLabel value="#{msg['bairro.manter.cidade']}"/>
+            <p:outputLabel value="#{consultarPessoaMBean.bairroSelecionado.cidade.nome}"/>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

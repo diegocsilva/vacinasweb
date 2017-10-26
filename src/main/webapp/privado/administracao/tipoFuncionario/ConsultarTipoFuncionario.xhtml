@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarTipoFuncionarioMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['tipoFuncionario.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['tipoFuncionario.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomeTipoFuncionario" value="#{msg['tipoFuncionario.consultar.nome']}"/>
+            <p:inputText id="nomeTipoFuncionario" value="#{consultarTipoFuncionarioMBean.tipoFuncionario.nome}" size="50" maxlength="50"/>
+
+            <h:outputLabel for="descricaoTipoFuncionario" value="#{msg['tipoFuncionario.consultar.descricao']}"/>
+            <p:inputText id="descricaoTipoFuncionario" value="#{consultarTipoFuncionarioMBean.tipoFuncionario.descricao}" size="50" maxlength="250"/>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarTipoFuncionarioMBean.listaTipoFuncionarios}" var="tipoFuncionario" sortBy="#{tipoFuncionario.nome}" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['tipoFuncionario.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{tipoFuncionario.idTipoFuncionario}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{tipoFuncionario.idTipoFuncionario}" />
+                </p:column>
+
+                <p:column headerText="#{msg['tipoFuncionario.consultar.nome']}" sortBy="#{tipoFuncionario.nome}">
+                    <h:outputText value="#{tipoFuncionario.nome}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['tipoFuncionario.consultar.descricao']}" sortBy="#{tipoFuncionario.descricao}" >
+                    <h:outputText value="#{tipoFuncionario.descricao}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarTipoFuncionarioMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarTipoFuncionarioMBean.visualizar(tipoFuncionario)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarTipoFuncionarioMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarTipoFuncionarioMBean.editar(tipoFuncionario)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarTipoFuncionarioMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarTipoFuncionarioMBean.deletar(tipoFuncionario)}">
+                        <p:confirm header="#{msg['tipoFuncionario.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['tipoFuncionario.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

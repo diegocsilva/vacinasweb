@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['empresa.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterEmpresaMBean}" />
+
+        <ui:define name="camposForm">
+            <p:outputLabel for="idEmpresa" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idEmpresa" value="#{manterEmpresaMBean.empresa.idEmpresa}" size="10" disabled="true"/>
+
+            <p:outputLabel for="nomeFantasia" value="#{msg['empresa.manter.nomeFantasia']}"/>
+            <p:inputText id="nomeFantasia" value="#{manterEmpresaMBean.empresa.nomeFantasia}" size="50" maxlength="100"
+                         required="true" requiredMessage="#{msg['empresa.manter.nomeFantasia.requiredMessage']}"/>
+
+            <p:outputLabel for="razaoSocialEmpresa" value="#{msg['empresa.manter.razaoSocial']}"/>
+            <p:inputText id="razaoSocialEmpresa" value="#{manterEmpresaMBean.empresa.razaoSocial}" size="50" maxlength="100"
+                         required="true" requiredMessage="#{msg['empresa.manter.razaoSocial.requiredMessage']}"/>
+
+            <p:outputLabel for="cnpjEmpresa" value="#{msg['empresa.manter.cnpj']}"/>
+            <p:inputMask id="cnpjEmpresa" value="#{manterEmpresaMBean.empresa.CNPJ}" size="50" required="true" 
+                         mask="#{msg['sistema.mascara.cnpj']}" requiredMessage="#{msg['empresa.manter.cnpj.requiredMessage']}"/>
+
+            <p:outputLabel for="contatoEmpresa" value="#{msg['empresa.manter.contato']}"/>
+            <p:selectOneMenu id="contatoEmpresa" value="#{manterEmpresaMBean.contato.id}" filter="true" filterMatchMode="contains" required="false" 
+                             requiredMessage="#{msg['empresa.manter.contato.requiredMessage']}">
+                <f:selectItem itemLabel="#{msg['empresa.manter.selectOneMenu.contato.selecione']}" />
+                <f:selectItems value="#{manterEmpresaMBean.listaContatos}" var="contato" itemLabel="#{contato.nome}" itemDescription="#{contato.toString()}"
+                               itemValue="#{contato.id}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="telefoneEmpresa" value="#{msg['empresa.manter.telefone']}"/>
+            <p:inputMask id="telefoneEmpresa" value="#{manterEmpresaMBean.empresa.telefone}" 
+                         mask="#{msg['sistema.mascara.telefone']}" size="50"/>
+
+            <p:outputLabel for="emailEmpresa" value="#{msg['empresa.manter.email']}"/>
+            <p:inputText id="emailEmpresa" value="#{manterEmpresaMBean.empresa.email}" size="50" maxlength="100"/>
+
+            <p:outputLabel for="fornecedorEmpresa" value="#{msg['empresa.manter.fornecedor']}"/>
+            <p:selectBooleanButton id="fornecedorEmpresa" value="#{manterEmpresaMBean.empresa.fornecedor}" onLabel="Sim" 
+                                   onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" />
+
+            <p:outputLabel for="fabricanteEmpresa" value="#{msg['empresa.manter.fabricante']}"/>
+            <p:selectBooleanButton id="fabricanteEmpresa" value="#{manterEmpresaMBean.empresa.fabricante}" onLabel="Sim" 
+                                   onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" />
+
+            <p:outputLabel for="parceiraEmpresa" value="#{msg['empresa.manter.parceira']}"/>
+            <p:selectBooleanButton id="parceiraEmpresa" value="#{manterEmpresaMBean.empresa.parceira}" onLabel="Sim" 
+                                   onIcon="fa fa-check" offLabel="Não" offIcon="fa fa-close" />
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

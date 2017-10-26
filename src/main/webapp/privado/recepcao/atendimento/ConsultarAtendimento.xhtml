@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template']}">
+
+        <ui:param name="renderMenu" value="true" />
+
+        <ui:define name="content">
+
+            <p:panel header="#{msg['atendimento.consultar.panel.header']}">
+
+                <p:fieldset legend="#{msg['sistema.consultar.fieldset.legend']}" toggleable="true" >
+
+                    <h:panelGrid columns="2">
+
+
+                    </h:panelGrid>
+
+                    <p:commandButton value="#{msg['sistema.botao.pesquisa.value']}" title="#{msg['sistema.botao.pesquisa.title']}" 
+                                     type="button" icon="ui-icon-search" action="#{consultarAtendimentoMBean.buscarAtendimento()}" />
+
+                </p:fieldset>
+
+                <p:spacer height="10" />
+
+                <p:toolbar >
+                    <p:toolbarGroup>
+
+                        <p:spacer width="10" />
+
+                        <p:button value="#{msg['sistema.botao.novo.value']}" title="#{msg['sistema.botao.novo.title']}" 
+                                  rendered="#{consultarAtendimentoMBean.renderizarBotaoNovoAtendimento()}"
+                                  icon="ui-icon-circle-plus" outcome="ManterAtendimento" />
+
+                        <p:separator />
+
+                        <p:commandButton value="#{msg['sistema.botao.deletar.value']}" title="#{msg['sistema.botao.deletar.title']}"
+                                         rendered="#{consultarAtendimentoMBean.renderizarBotaoDeletarVariosAtendimento()}" type="button" 
+                                         icon="ui-icon-circle-close" action="#{consultarAtendimentoMBean.deletarVariosAtendimentos()}" >
+                            <p:confirm header="#{msg['atendimento.consultar.deletarVarios.confirm.header']}" 
+                                       message="#{msg['atendimento.consultar.deletarVarios.confirm.message']}" icon="fa-warning" />
+                        </p:commandButton>
+
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable value="#{consultarAtendimentoMBean.listaAtendimentos}" var="atendimento" sortBy="#{atendimento.nome}" 
+                             id="datatable_atendimento" paginator="true" paginatorAlwaysVisible="false" 
+                             rows="#{msg['dataTable.configuracao.rows']}" 
+                             paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                             rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                             emptyMessage="#{msg['atendimento.consultar.datatable.emptyMessage']}">
+
+                    <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" width="100" sortBy="#{atendimento.idAtendimento}">
+                        <h:outputText value="#{atendimento.idAtendimento}" />
+                    </p:column>
+
+
+                    <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="100" >
+
+                        <p:commandButton icon="ui-icon-search" title="#{msg['dataTable.botao.visualizar']}"
+                                         rendered="#{consultarAtendimentoMBean.renderizarBotaoVisualizarAtendimento()}"/>
+
+                        <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa-edit"
+                                         rendered="#{consultarAtendimentoMBean.renderizarBotaoEditarAtendimento()}"
+                                         action="#{consultarAtendimentoMBean.editarAtendimento(atendimento)}"/>
+
+                        <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="ui-icon-trash"
+                                         rendered="#{consultarAtendimentoMBean.renderizarBotaoDeletarAtendimento()}"
+                                         action="#{consultarAtendimentoMBean.deletarAtendimento(atendimento)}" >
+                            <p:confirm header="#{msg['atendimento.consultar.deletar.confirm.header']}" 
+                                       message="#{msg['atendimento.consultar.deletar.confirm.message']}" icon="fa-warning" />
+                        </p:commandButton>
+
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
+

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['perfil.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterPerfilMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idPerfil" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idPerfil" value="#{manterPerfilMBean.perfil.idPerfil}" size="10" readonly="true"/>
+
+            <p:outputLabel for="nomePerfil" value="#{msg['perfil.manter.nome']}"/>
+            <p:inputText id="nomePerfil" value="#{manterPerfilMBean.perfil.nome}" size="50" maxlength="50"
+                         required="true" requiredMessage="#{msg['perfil.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="descricaoPerfil" value="#{msg['perfil.manter.descricao']}"/>
+            <p:inputText id="descricaoPerfil" value="#{manterPerfilMBean.perfil.descricao}" size="50" maxlength="200"
+                         required="false" requiredMessage="#{msg['perfil.manter.descricao.requiredMessage']}"/>
+
+            <p:outputLabel for="situacaoPerfil" value="#{msg['perfil.manter.situacao']}"/>
+            <p:selectBooleanButton id="situacaoPerfil" value="#{manterPerfilMBean.perfil.ativo}" onLabel="Ativo" 
+                                   onIcon="fa fa-check" offLabel="Inativo" offIcon="fa fa-close" />
+
+            <p:outputLabel for="permissaoPickList" value="#{msg['perfil.manter.permissao']}"/>
+            <h:panelGrid >
+
+                <p:pickList id="permissaoPickList" value="#{manterPerfilMBean.listaPermissaoPickList}" var="permissao" 
+                            itemValue="#{permissao}" itemLabel="#{permissao.nome}" responsive="true" showSourceFilter="true" 
+                            showTargetFilter="true" filterMatchMode="contains" labelDisplay="inline" converter="permissaoPickListConverter"
+                            addLabel="#{msg['pickList.botao.addLabel']}" addAllLabel="#{msg['pickList.botao.addAllLabel']}" 
+                            removeLabel="#{msg['pickList.botao.removeLabel']}" removeAllLabel="#{msg['pickList.botao.removeAllLabel']}" >
+                    <f:facet name="sourceCaption">#{msg['perfil.manter.pickList.sourceCaption']}</f:facet>
+                    <f:facet name="targetCaption">#{msg['perfil.manter.pickList.targetCaption']}</f:facet>
+                </p:pickList>
+
+            </h:panelGrid>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

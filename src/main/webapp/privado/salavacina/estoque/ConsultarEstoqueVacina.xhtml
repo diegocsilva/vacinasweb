@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarEstoqueVacinaMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['estoqueVacina.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['estoqueVacina.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="vacina" value="#{msg['estoqueVacina.consultar.vacina']}"/>
+            <p:selectOneMenu id="vacina" value="#{consultarEstoqueVacinaMBean.vacina.idVacina}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['estoqueVacina.consultar.vacina.selectOneMenu']}" />
+                <f:selectItems value="#{consultarEstoqueVacinaMBean.listaVacinas}" var="vacina" itemLabel="#{vacina.nome}" itemValue="#{vacina.idVacina}" 
+                               itemDescription="#{vacina.nome}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel for="loteVacina" value="#{msg['estoqueVacina.consultar.loteVacina']}"/>
+            <p:selectOneMenu id="loteVacina" value="#{consultarEstoqueVacinaMBean.loteVacina.idLoteVacina}" filter="true" filterMatchMode="contains" > 
+                <f:selectItem itemLabel="#{msg['estoqueVacina.consultar.loteVacina.selectOneMenu']}" />
+                <f:selectItems value="#{manterVacinacaoMBean.listaLoteVacinas}" var="loteVacina" itemLabel="#{loteVacina.numero}" itemDescription="#{loteVacina.toString()}"
+                               itemValue="#{loteVacina.idLoteVacina}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="fornecedor" value="#{msg['estoqueVacina.consultar.fornecedor']}" />
+            <p:selectOneMenu id="fornecedor" value="#{consultarEstoqueVacinaMBean.fornecedor.idEmpresa}" filter="true" filterMatchMode="contains" >
+                <f:selectItem itemLabel="#{msg['estoqueVacina.consultar.fornecedor.selectOneMenu']}" />
+                <f:selectItems value="#{consultarEstoqueVacinaMBean.listaFornecedores}" var="fornecedor" itemLabel="#{fornecedor.nomeFantasia}" itemValue="#{fornecedor.idEmpresa}" 
+                               itemDescription="#{fornecedor.toString()}"/>
+            </p:selectOneMenu>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarEstoqueVacinaMBean.listaEstoqueVacinas}" var="estoqueVacina" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}"
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['estoqueVacina.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{estoqueVacina.idEstoqueVacina}" 
+                          width="10%" style="text-align: center;">
+                    <h:outputText value="#{estoqueVacina.idEstoqueVacina}" />
+                </p:column>
+                <p:column headerText="#{msg['estoqueVacina.consultar.vacina']}" sortBy="#{estoqueVacina.loteVacina.vacina.nome}" >
+                    <h:outputText value="#{estoqueVacina.loteVacina.vacina.nome}" />
+                </p:column>
+
+                <p:column headerText="#{msg['estoqueVacina.consultar.loteVacina']}" sortBy="#{estoqueVacina.loteVacina.numero}" >
+                    <h:outputText value="#{estoqueVacina.loteVacina.numero}" />
+                </p:column>
+
+                <p:column headerText="#{msg['estoqueVacina.consultar.quantidadeEntrada']}" sortBy="#{estoqueVacina.quantidadeEntrada}" >
+                    <h:outputText value="#{estoqueVacina.quantidadeEntrada}" />
+                </p:column>
+
+                <p:column headerText="#{msg['estoqueVacina.consultar.quantidadeSaida']}" sortBy="#{estoqueVacina.quantidadeSaida}" >
+                    <h:outputText value="#{estoqueVacina.quantidadeSaida}" />
+                </p:column>
+
+                <p:column headerText="#{msg['estoqueVacina.consultar.quantidadeAtual']}" sortBy="#{estoqueVacina.quantidadeAtual}" >
+                    <h:outputText value="#{estoqueVacina.quantidadeAtual}" />
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarEstoqueVacinaMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarEstoqueVacinaMBean.visualizar(estoqueVacina)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarEstoqueVacinaMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarEstoqueVacinaMBean.editar(estoqueVacina)}" />
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarEstoqueVacinaMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarEstoqueVacinaMBean.deletar(estoqueVacina)}">
+                        <p:confirm header="#{msg['estoqueVacina.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['estoqueVacina.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

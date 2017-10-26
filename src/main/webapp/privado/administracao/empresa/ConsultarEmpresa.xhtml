@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="#{msg['sistema.template.listagem']}">
+
+        <ui:param name="controller" value="#{consultarEmpresaMBean}" />
+        <ui:param name="nomePanelHeader" value="#{msg['empresa.consultar.panel.header']}" />
+        <ui:param name="headerDialogVisualizar" value="#{msg['empresa.consultar.panel.header']}" />
+
+        <ui:define name="camposFiltro">
+
+            <h:outputLabel for="nomeEmpresa" value="#{msg['empresa.consultar.nomeFantasia']}"/>
+            <p:inputText id="nomeEmpresa" value="#{consultarEmpresaMBean.empresa.nomeFantasia}" size="50"/>
+
+            <h:outputLabel for="razaoSocialEmpresa" value="#{msg['empresa.consultar.razaoSocial']}"/>
+            <p:inputText id="razaoSocialEmpresa" value="#{consultarEmpresaMBean.empresa.razaoSocial}" size="50"/>
+
+            <h:outputLabel for="cnpjEmpresa" value="#{msg['empresa.consultar.cnpj']}"/>
+            <p:inputMask id="cnpjEmpresa" value="#{consultarEmpresaMBean.empresa.CNPJ}" mask="#{msg['sistema.mascara.cnpj']}" size="50"/>
+
+            <h:outputLabel for="contatoEmpresa" value="#{msg['empresa.consultar.contato']}"/>
+            <p:selectOneMenu id="contatoEmpresa" value="#{consultarEmpresaMBean.empresa.contato.id}" filter="true" 
+                             filterMatchMode="contains" required="false" 
+                             requiredMessage="#{msg['empresa.manter.contato.requiredMessage']}">
+                <f:selectItem itemLabel="#{msg['empresa.manter.selectOneMenu.contato.selecione']}" />
+                <f:selectItems value="#{consultarEmpresaMBean.listaContatos}" var="contato" itemLabel="#{contato.nome}"
+                               itemValue="#{contato.id}" itemDescription="#{contato.toString()}"/>
+            </p:selectOneMenu>
+
+            <h:outputLabel for="fornecedor" value="#{msg['empresa.consultar.fornecedor']}"/>
+            <p:selectManyCheckbox id="fornecedor" value="#{consultarEmpresaMBean.fornecedor}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.sim.label']}" itemValue="#{msg['sistema.enum.sim.value']}"  />
+                <f:selectItem itemLabel="#{msg['sistema.enum.nao.label']}" itemValue="#{msg['sistema.enum.nao.value']}" />
+            </p:selectManyCheckbox>
+
+            <h:outputLabel for="fabricante" value="#{msg['empresa.consultar.fabricante']}"/>
+            <p:selectManyCheckbox id="fabricante" value="#{consultarEmpresaMBean.fabricante}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.sim.label']}" itemValue="#{msg['sistema.enum.sim.value']}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.nao.label']}" itemValue="#{msg['sistema.enum.nao.value']}" />
+            </p:selectManyCheckbox>
+
+            <h:outputLabel for="parceira" value="#{msg['empresa.consultar.parceira']}"/>
+            <p:selectManyCheckbox id="parceira" value="#{consultarEmpresaMBean.parceira}">
+                <f:selectItem itemLabel="#{msg['sistema.enum.sim.label']}" itemValue="#{msg['sistema.enum.sim.value']}" />
+                <f:selectItem itemLabel="#{msg['sistema.enum.nao.label']}" itemValue="#{msg['sistema.enum.nao.value']}" />
+            </p:selectManyCheckbox>
+
+        </ui:define>
+
+        <ui:define name="dataTable">
+
+            <p:dataTable value="#{consultarEmpresaMBean.listaEmpresas}" var="empresa" sortBy="#{empresa.nomeFantasia}" 
+                         id="datatable" widgetVar="widgetVar_dataTable" paginator="true" paginatorAlwaysVisible="false" 
+                         rows="#{msg['dataTable.configuracao.rows']}" 
+                         paginatorPosition="#{msg['dataTable.configuracao.paginatorPosition']}" 
+                         rowsPerPageTemplate="#{msg['dataTable.configuracao.rowsPerPageTemplate']}" 
+                         emptyMessage="#{msg['empresa.consultar.datatable.emptyMessage']}">
+
+                <p:column headerText="#{msg['dataTable.column.codigo.headerText']}" sortBy="#{empresa.idEmpresa}" width="10%" style="text-align: center;">
+                    <h:outputText value="#{empresa.idEmpresa}" />
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.consultar.nomeFantasia']}" sortBy="#{empresa.nomeFantasia}">
+                    <h:outputText value="#{empresa.nomeFantasia}"/>
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.consultar.cnpj']}" sortBy="#{empresa.CNPJ}" width="15%" style="text-align: center;">
+                    <h:outputText value="#{empresa.CNPJ}" />
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.consultar.fabricante']}" sortBy="#{empresa.fabricante}" width="10%" style="text-align: center;">
+                    <p:commandButton icon="fa fa-check" rendered="#{empresa.fabricante}" title="Sim" />
+                    <p:commandButton icon="fa fa-close" rendered="#{!empresa.fabricante}" title="Não"/>
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.consultar.fornecedor']}" sortBy="#{empresa.fornecedor}" width="10%" style="text-align: center;">
+                    <p:commandButton icon="fa fa-check" rendered="#{empresa.fornecedor}" title="Sim"/>
+                    <p:commandButton icon="fa fa-close" rendered="#{!empresa.fornecedor}" title="Não"/>
+                </p:column>
+
+                <p:column headerText="#{msg['empresa.consultar.parceira']}" sortBy="#{empresa.parceira}" width="10%" style="text-align: center;">
+                    <p:commandButton icon="fa fa-check" rendered="#{empresa.parceira}" title="Sim"/>
+                    <p:commandButton icon="fa fa-close" rendered="#{!empresa.parceira}" title="Não"/>
+                </p:column>
+
+                <p:column headerText="#{msg['dataTable.column.acoes.headerText']}" width="10%" style="text-align: center;" >
+
+                    <p:commandButton icon="fa fa-search" title="#{msg['dataTable.botao.visualizar']}"
+                                     rendered="#{consultarEmpresaMBean.renderizarBotaoVisualizar()}"
+                                     onclick="widgetVar_dialogVisualizar.show();"
+                                     actionListener="#{consultarEmpresaMBean.visualizar(empresa)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.editar']}" icon="fa fa-edit"
+                                     rendered="#{consultarEmpresaMBean.renderizarBotaoEditar()}"
+                                     action="#{consultarEmpresaMBean.editar(empresa)}"/>
+
+                    <p:commandButton title="#{msg['dataTable.botao.deletar']}" icon="fa fa-trash"
+                                     rendered="#{consultarEmpresaMBean.renderizarBotaoDeletar()}"
+                                     update="@widgetVar(widgetVar_dataTable)"
+                                     action="#{consultarEmpresaMBean.deletar(empresa)}">
+                        <p:confirm header="#{msg['estado.consultar.deletar.confirm.header']}" 
+                                   message="#{msg['estado.consultar.deletar.confirm.message']}" icon="fa fa-warning" />
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+
+        <ui:define name="camposDialogVisualizar">
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['estoqueVacina.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterEstoqueVacinaMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idEstoqueVacina" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idEstoqueVacina" value="#{manterEstoqueVacinaMBean.estoqueVacina.idEstoqueVacina}" size="10" readonly="true"/>
+
+            <p:outputLabel for="vacina" value="#{msg['estoqueVacina.manter.vacina']}"/>
+            <p:selectOneMenu id="vacina" value="#{manterEstoqueVacinaMBean.vacina.idVacina}" filter="true" filterMatchMode="contains"
+                             valueChangeListener="#{manterEstoqueVacinaMBean.atualizarListaLotesVacina}" onchange="submit()" immediate="true"
+                             required="true" requiredMessage="#{msg['estoqueVacina.manter.vacina.requiredMessage']}"> 
+                <f:selectItem itemLabel="#{msg['estoqueVacina.manter.vacina.selectOneMenu']}" />
+                <f:selectItems value="#{manterEstoqueVacinaMBean.listaVacinas}" var="vacina" itemLabel="#{vacina.nome}" itemDescription="#{vacina.nome}"
+                               itemValue="#{vacina.idVacina}" />
+            </p:selectOneMenu>
+
+            <p:outputLabel for="loteVacina" value="#{msg['estoqueVacina.manter.loteVacina']}"/>
+            <h:panelGroup>
+                <h:panelGrid columns="2">
+
+                    <p:selectOneMenu id="loteVacina" value="#{manterEstoqueVacinaMBean.loteVacina.idLoteVacina}" filter="true" filterMatchMode="contains" 
+                                     required="true" requiredMessage="#{msg['estoqueVacina.manter.loteVacina.requiredMessage']}" > 
+                        <f:selectItem itemLabel="#{msg['estoqueVacina.manter.loteVacina.selectOneMenu']}" />
+                        <f:selectItems value="#{manterEstoqueVacinaMBean.listaLoteVacinas}" var="loteVacina" itemLabel="#{loteVacina.numero}" itemDescription="#{loteVacina.toString()}"
+                                       itemValue="#{loteVacina.idLoteVacina}" />
+                    </p:selectOneMenu>
+
+                    <p:commandButton id="btnNovoLote" title="Criar Novo Lote da Vacina" icon="fa fa-plus" rendered="false"
+                                     oncomplete="PF('wvModalCadastroLote').show();" immediate="true"/>
+                </h:panelGrid>
+            </h:panelGroup>
+
+            <p:outputLabel for="fornecedor" value="#{msg['estoqueVacina.manter.fornecedor']}" />
+            <p:selectOneMenu id="fornecedor" value="#{manterEstoqueVacinaMBean.fornecedor.idEmpresa}" filter="true" filterMatchMode="contains">
+                <f:selectItem itemLabel="#{msg['estoqueVacina.manter.fornecedor.selectOneMenu']}" />
+                <f:selectItems value="#{manterEstoqueVacinaMBean.listaFornecedores}" var="fornecedor" itemLabel="#{fornecedor.nomeFantasia}" itemValue="#{fornecedor.idEmpresa}" 
+                               itemDescription="#{fornecedor.toString()}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel for="qtdeEntrada" value="#{msg['estoqueVacina.manter.quantidadeEntrada']}"/>
+            <p:inputText id="qtdeEntrada" value="#{manterEstoqueVacinaMBean.estoqueVacina.quantidadeEntrada}" size="50" type="number" maxlength="10" readonly="true"  />
+
+            <p:outputLabel for="qtdeSaida" value="#{msg['estoqueVacina.manter.quantidadeSaida']}"/>
+            <p:inputText id="qtdeSaida" value="#{manterEstoqueVacinaMBean.estoqueVacina.quantidadeSaida}" size="50" type="number" maxlength="10" readonly="true"/>
+
+            <p:outputLabel for="qtdeAtual" value="#{msg['estoqueVacina.manter.quantidadeAtual']}"/>
+            <p:inputText id="qtdeAtual" value="#{manterEstoqueVacinaMBean.estoqueVacina.quantidadeAtual}" size="50" type="number" maxlength="10" readonly="true" />
+
+            <p:dialog id="modalCadastroLote" widgetVar="wvModalCadastroLote" appendTo="@(body)" modal="true" dynamic="true" >
+                <h:form id="form_cadastroLote" prependId="false">
+
+                    <p:messages id="messages_dialogNovoLote" />
+
+                    <h:panelGrid columns="2">
+
+                        <p:outputLabel for="vacinaLote" value="#{msg['loteVacina.manter.vacina']}"/>
+                        <p:selectOneMenu id="vacinaLote" value="#{manterLoteVacinaMBean.vacina.idVacina}" filter="true" filterMatchMode="contains"
+                                         required="true" requiredMessage="#{msg['loteVacina.manter.vacina.requiredMessage']}"> 
+                            <f:selectItem itemLabel="#{msg['loteVacina.manter.vacina.selectOneMenu']}" />
+                            <f:selectItems value="#{manterLoteVacinaMBean.listaVacinas}" var="vacinaLote" itemLabel="#{vacinaLote.nome}" itemDescription="#{vacinaLote.nome}"
+                                           itemValue="#{vacinaLote.idVacina}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="fabricanteLote" value="#{msg['loteVacina.manter.fabricante']}"/>
+                        <p:selectOneMenu id="fabricanteLote" value="#{manterLoteVacinaMBean.fabricante.idEmpresa}" filter="true" filterMatchMode="contains"
+                                         required="true" requiredMessage="#{msg['loteVacina.manter.fabricante.requiredMessage']}"> 
+                            <f:selectItem itemLabel="#{msg['loteVacina.manter.fabricante.selectOneMenu']}" />
+                            <f:selectItems value="#{manterLoteVacinaMBean.listaFabricante}" var="fabricanteLote" itemLabel="#{fabricanteLote}" 
+                                           itemDescription="#{fabricanteLote.toString()}"
+                                           itemValue="#{fabricanteLote.idEmpresa}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="dataFabricacaoLote" value="#{msg['loteVacina.manter.dataFabricacao']}"/>
+                        <p:calendar id="dataFabricacaoLote" locale="br" pattern="#{msg['sistema.calendar.pattern.data']}" value="#{manterLoteVacinaMBean.loteVacina.dataFabricacao}" 
+                                    required="true" requiredMessage="#{msg['loteVacina.manter.dataFabricacao.requiredMessage']}" />
+
+                        <p:outputLabel for="dataValidadeLote" value="#{msg['loteVacina.manter.dataValidade']}"/>
+                        <p:calendar id="dataValidadeLote" locale="br" pattern="#{msg['sistema.calendar.pattern.data']}" value="#{manterLoteVacinaMBean.loteVacina.dataFabricacao}" 
+                                    required="true" requiredMessage="#{msg['loteVacina.manter.dataValidade.requiredMessage']}" />
+
+                        <p:outputLabel for="numeroLote" value="#{msg['loteVacina.manter.numero']}"/>
+                        <p:inputText id="numeroLote" value="#{manterLoteVacinaMBean.loteVacina.numero}" size="25"
+                                     required="true" requiredMessage="#{msg['loteVacina.manter.numero.requiredMessage']}"/>
+
+                        <p:outputLabel for="descricaoLote" value="#{msg['loteVacina.manter.descricao']}"/>
+                        <p:inputText id="descricaoLote" value="#{manterLoteVacinaMBean.loteVacina.descricao}" size="25"/>
+
+
+                    </h:panelGrid>
+
+                    <p:toolbar>
+
+                        <p:toolbarGroup align="right">
+
+                            <p:commandButton value="#{msg['sistema.botao.salvar.value']}" title="#{msg['sistema.botao.salvar.title']}" 
+                                             rendered="#{manterLoteVacinaMBean.renderizarBotaoSalvar()}" update="@form"
+                                             icon="fa fa-save" action="#{manterLoteVacinaMBean.salvar()}" />
+
+                        </p:toolbarGroup>
+
+                    </p:toolbar>
+
+                </h:form>
+            </p:dialog>
+
+        </ui:define>
+
+        <ui:define name="botoesToolbarGroupLeft">
+
+            <p:commandButton value="#{msg['estoqueVacina.manter.botao.entrada']}" title="#{msg['estoqueVacina.manter.botao.entrada.title']}" 
+                             rendered="#{manterEstoqueVacinaMBean.renderizarBotaoNovaEntrada()}" action="#{manterEstoqueVacinaMBean.novaEntrada()}" icon="fa fa-plus" 
+                             immediate="true" update="@form"/>
+
+            <p:commandButton value="#{msg['estoqueVacina.manter.botao.saida']}" title="#{msg['estoqueVacina.manter.botao.saida.title']}" 
+                             rendered="#{manterEstoqueVacinaMBean.renderizarBotaoNovaSaida()}" action="#{manterEstoqueVacinaMBean.novaSaida()}" icon="fa fa-plus" 
+                             immediate="true" update="@form"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

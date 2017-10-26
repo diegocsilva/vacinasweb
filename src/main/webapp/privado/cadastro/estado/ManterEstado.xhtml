@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="#{msg['sistema.template.formulario']}">
+
+        <ui:param name="nomePanelHeader" value="#{msg['estado.manter.panel.header']}" />
+        <ui:param name="controller" value="#{manterEstadoMBean}" />
+
+        <ui:define name="camposForm">
+
+            <p:outputLabel for="idEstado" value="#{msg['sistema.label.codigo']}"/>
+            <p:inputText id="idEstado" value="#{manterEstadoMBean.estado.idEstado}" size="10" readonly="true"/>
+
+            <p:outputLabel for="nomeEstado" value="#{msg['estado.manter.nome']}"/>
+            <p:inputText id="nomeEstado" value="#{manterEstadoMBean.estado.nome}" size="50"
+                         required="true" requiredMessage="#{msg['estado.manter.nome.requiredMessage']}"/>
+
+            <p:outputLabel for="siglaEstado" value="#{msg['estado.manter.sigla']}"/>
+            <p:inputText id="siglaEstado" value="#{manterEstadoMBean.estado.sigla}" size="50" maxlength="3"
+                         required="true" requiredMessage="#{msg['estado.manter.sigla.requiredMessage']}"/>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
